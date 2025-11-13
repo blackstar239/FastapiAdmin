@@ -5,12 +5,12 @@
 @import url("./vxe-table.css");
 
 .app-container {
-  padding: 12px;
-  border-radius: 4px;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  padding: 12px;
   overflow: auto;
+  border-radius: 4px;
 }
 
 // 进度条颜色

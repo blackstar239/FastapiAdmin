@@ -436,25 +436,25 @@ onUnmounted(() => {
 .chatgpt-container {
   display: flex;
   height: calc(100vh - 120px);
-  background: var(--el-bg-color);
   overflow: hidden;
+  background: var(--el-bg-color);
 }
 
 // 主聊天区域
 .main-chat {
-  flex: 1;
+  position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
-  position: relative;
 
   .chat-navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 16px 24px;
-    border-bottom: 1px solid var(--el-border-color-light);
     background: var(--el-bg-color);
+    border-bottom: 1px solid var(--el-border-color-light);
 
     .navbar-left {
       h2 {
@@ -467,13 +467,13 @@ onUnmounted(() => {
 
     .navbar-right {
       display: flex;
-      align-items: center;
       gap: 16px;
+      align-items: center;
 
       .connection-status {
         display: flex;
-        align-items: center;
         gap: 8px;
+        align-items: center;
         font-size: 12px;
 
         .status-icon {
@@ -497,9 +497,9 @@ onUnmounted(() => {
 
   .chat-messages {
     flex: 1;
+    padding-bottom: 120px; // 为底部输入框留出空间
     overflow-y: auto;
     background: var(--el-bg-color);
-    padding-bottom: 120px; // 为底部输入框留出空间
 
     // 欢迎界面
     .welcome-screen {
@@ -520,17 +520,17 @@ onUnmounted(() => {
         }
 
         h1 {
+          margin: 0 0 16px;
           font-size: 32px;
           font-weight: 600;
-          margin: 0 0 16px;
           color: var(--el-text-color-primary);
         }
 
         .welcome-subtitle {
-          font-size: 16px;
-          color: var(--el-text-color-secondary);
           margin-bottom: 32px;
+          font-size: 16px;
           line-height: 1.5;
+          color: var(--el-text-color-secondary);
         }
 
         .example-prompts {
@@ -540,18 +540,18 @@ onUnmounted(() => {
           max-width: 600px;
 
           .prompt-card {
+            padding: 20px;
+            text-align: left;
+            cursor: pointer;
             background: var(--el-bg-color-page);
             border: 1px solid var(--el-border-color-light);
             border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
             transition: all 0.2s ease;
-            text-align: left;
 
             &:hover {
               border-color: var(--el-color-primary);
-              transform: translateY(-2px);
               box-shadow: var(--el-box-shadow-light);
+              transform: translateY(-2px);
             }
 
             h4 {
@@ -564,8 +564,8 @@ onUnmounted(() => {
             p {
               margin: 0;
               font-size: 13px;
-              color: var(--el-text-color-secondary);
               line-height: 1.4;
+              color: var(--el-text-color-secondary);
             }
           }
         }
@@ -574,40 +574,40 @@ onUnmounted(() => {
 
     // 消息列表
     .messages-list {
-      padding: 24px;
       max-width: 800px;
+      padding: 24px;
       margin: 0 auto;
 
       .message-group {
-        margin-bottom: 32px;
         display: flex;
         gap: 16px;
+        margin-bottom: 32px;
 
         .message-avatar {
           flex-shrink: 0;
 
           .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: var(--el-color-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            width: 32px;
+            height: 32px;
             font-size: 14px;
+            color: white;
+            background: var(--el-color-primary);
+            border-radius: 6px;
           }
 
           .ai-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: var(--el-color-success);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            width: 32px;
+            height: 32px;
             font-size: 14px;
+            color: white;
+            background: var(--el-color-success);
+            border-radius: 6px;
           }
         }
 
@@ -641,23 +641,23 @@ onUnmounted(() => {
               }
 
               :deep(code) {
-                background: var(--el-fill-color-light);
                 padding: 2px 6px;
-                border-radius: 4px;
                 font-family: "JetBrains Mono", "Courier New", monospace;
                 font-size: 14px;
+                background: var(--el-fill-color-light);
+                border-radius: 4px;
               }
 
               :deep(pre) {
-                background: var(--el-fill-color-light);
                 padding: 16px;
-                border-radius: 8px;
-                overflow-x: auto;
                 margin: 12px 0;
+                overflow-x: auto;
+                background: var(--el-fill-color-light);
+                border-radius: 8px;
 
                 code {
-                  background: none;
                   padding: 0;
+                  background: none;
                 }
               }
 
@@ -682,8 +682,8 @@ onUnmounted(() => {
 
             .typing-indicator {
               display: flex;
-              align-items: center;
               gap: 8px;
+              align-items: center;
               color: var(--el-text-color-secondary);
 
               .typing-dots {
@@ -693,8 +693,8 @@ onUnmounted(() => {
                 span {
                   width: 8px;
                   height: 8px;
-                  border-radius: 50%;
                   background: var(--el-text-color-secondary);
+                  border-radius: 50%;
                   animation: typing 1.4s infinite;
 
                   &:nth-child(2) {
@@ -716,8 +716,8 @@ onUnmounted(() => {
             transition: opacity 0.2s ease;
 
             .el-button {
-              padding: 4px 8px;
               min-height: auto;
+              padding: 4px 8px;
             }
           }
 
@@ -736,13 +736,13 @@ onUnmounted(() => {
   // 输入区域
   .chat-input {
     position: fixed;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
+    z-index: 10;
     padding: 16px 24px 24px;
     background: var(--el-bg-color);
     border-top: 1px solid var(--el-border-color-light);
-    z-index: 10;
 
     .input-wrapper {
       max-width: 800px;
@@ -753,8 +753,8 @@ onUnmounted(() => {
         background: var(--el-bg-color-page);
         border: 1px solid var(--el-border-color);
         border-radius: 12px;
-        transition: border-color 0.2s ease;
         box-shadow: var(--el-box-shadow-light);
+        transition: border-color 0.2s ease;
 
         &:focus-within {
           border-color: var(--el-color-primary);
@@ -763,13 +763,13 @@ onUnmounted(() => {
 
         .message-input {
           :deep(.el-textarea__inner) {
-            border: none;
-            box-shadow: none;
-            background: transparent;
-            resize: none;
             padding: 16px 60px 16px 16px;
             font-size: 15px;
             line-height: 1.5;
+            resize: none;
+            background: transparent;
+            border: none;
+            box-shadow: none;
 
             &:focus {
               border: none;

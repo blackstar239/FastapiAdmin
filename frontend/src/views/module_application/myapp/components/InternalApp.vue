@@ -94,15 +94,15 @@ watch(
 
 <style lang="scss" scoped>
 .internal-app-container {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
   background: var(--el-bg-color);
 }
 
 .internal-app-content {
-  flex: 1;
   position: relative;
+  flex: 1;
   overflow: hidden;
 }
 
@@ -115,15 +115,15 @@ watch(
 .loading-overlay {
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: var(--el-bg-color);
   gap: 12px;
+  align-items: center;
+  justify-content: center;
+  background: var(--el-bg-color);
 
   .loading-icon {
     font-size: 24px;
@@ -132,8 +132,8 @@ watch(
   }
 
   span {
-    color: var(--el-text-color-regular);
     font-size: 14px;
+    color: var(--el-text-color-regular);
   }
 }
 

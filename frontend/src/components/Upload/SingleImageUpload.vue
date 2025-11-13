@@ -313,34 +313,22 @@ const onError = (error: any) => {
   align-items: flex-start;
 }
 
-:deep(.el-upload--picture-card) {
-  position: relative;
-  width: v-bind("props.style.width ?? '150px'");
-  height: v-bind("props.style.height ?? '150px'");
-
-  &:hover {
-    .single-upload__delete-btn {
-      display: block;
-    }
-  }
-}
-
 .single-upload {
   &__image {
-    border-radius: 6px;
     cursor: pointer;
+    border-radius: 6px;
   }
 
   &__delete-btn {
     position: absolute;
     top: 1px;
     right: 1px;
+    display: none;
     font-size: 16px;
     color: #ff7901;
     cursor: pointer;
     background: #fff;
     border-radius: 100%;
-    display: none;
 
     &:hover {
       color: #ff4500;
@@ -353,9 +341,21 @@ const onError = (error: any) => {
   }
 }
 
+:deep(.el-upload--picture-card) {
+  position: relative;
+  width: v-bind("props.style.width ?? '150px'");
+  height: v-bind("props.style.height ?? '150px'");
+
+  &:hover {
+    .single-upload__delete-btn {
+      display: block;
+    }
+  }
+}
+
 .el-upload__tip {
+  margin-top: 7px;
   font-size: 12px;
   color: #606266;
-  margin-top: 7px;
 }
 </style>

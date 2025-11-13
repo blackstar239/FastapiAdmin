@@ -790,8 +790,8 @@ onUnmounted(() => {
     border: 1px solid var(--el-border-color-light);
 
     &:hover {
-      background-color: var(--el-fill-color-light);
       color: var(--el-color-primary);
+      background-color: var(--el-fill-color-light);
 
       .el-icon {
         transform: scale(1.1);

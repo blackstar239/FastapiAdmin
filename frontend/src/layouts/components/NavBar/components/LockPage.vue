@@ -147,35 +147,35 @@ function handleShowForm(show = false) {
 
 <style lang="scss" scoped>
 .lockpage {
-  z-index: 3000;
   position: fixed;
+  inset: 0;
   top: 0;
   left: 0;
-  inset: 0;
+  z-index: 3000;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background-color: black;
   backdrop-filter: blur(8px);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
   .unlock-container {
     position: absolute;
     top: 0.5rem;
     left: 50%;
-    padding-top: 1.25rem;
-    height: 4rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    flex-direction: column;
-    cursor: pointer;
-    transform: translateX(-50%);
-    border-radius: 12px;
+    height: 4rem;
     padding: 0.5rem 1rem;
+    padding-top: 1.25rem;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 12px;
+    transform: translateX(-50%);
 
     @media (min-width: 640px) {
       font-size: 0.875rem;
@@ -188,47 +188,42 @@ function handleShowForm(show = false) {
 
   .time-container {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     .hour-container {
       display: flex;
-      justify-content: center;
       align-items: center;
-      backdrop-filter: blur(8px);
-      border-radius: 16px;
+      justify-content: center;
       padding: 1rem;
       margin-bottom: 2rem;
+      font-size: 220px;
       font-weight: 700;
       color: #bababa;
       background-color: #141313;
-      justify-content: center;
-      align-items: center;
-      font-size: 220px;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
     }
 
     .minute-container {
       display: flex;
-      justify-content: center;
       align-items: center;
-      backdrop-filter: blur(8px);
-      border-radius: 16px;
+      justify-content: center;
       padding: 1rem;
       margin-bottom: 2rem;
-      display: flex;
+      font-size: 220px;
       font-weight: 700;
       color: #bababa;
       background-color: #141313;
-      justify-content: center;
-      align-items: center;
-      font-size: 220px;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
     }
   }
 
   .meridiem {
     position: absolute;
-    left: 1.25rem;
     top: 1.25rem;
+    left: 1.25rem;
     font-size: 1.25rem;
   }
 
@@ -236,18 +231,18 @@ function handleShowForm(show = false) {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     background-color: rgb(0 0 0 / 50%);
     backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
   .entry-content {
     width: 260px;
-    text-align: center;
     color: #bababa;
+    text-align: center;
   }
 
   .avatar-container {
@@ -263,8 +258,8 @@ function handleShowForm(show = false) {
   }
 
   .username {
-    font-size: 0.875rem;
     margin: 0.625rem 0;
+    font-size: 0.875rem;
     color: var(--logo-title-text-color);
   }
 
@@ -274,22 +269,22 @@ function handleShowForm(show = false) {
 
   .error-message {
     display: inline-block;
-    font-size: 0.875rem;
     margin-top: 0.625rem;
+    font-size: 0.875rem;
     color: #ed6f6f;
   }
 
   .button-group {
     display: flex;
-    justify-content: space-between; // 左右对齐
     align-items: center;
+    justify-content: space-between; // 左右对齐
     margin-top: 0.5rem;
 
     .back-button,
     .login-button,
     .entry-button {
-      padding: 0;
       min-width: auto;
+      padding: 0;
     }
 
     .login-button {
@@ -315,8 +310,8 @@ function handleShowForm(show = false) {
   }
 
   .time-display {
-    font-size: 3rem;
     margin-bottom: 1rem;
+    font-size: 3rem;
 
     .meridiem-display {
       font-size: 1.875rem;

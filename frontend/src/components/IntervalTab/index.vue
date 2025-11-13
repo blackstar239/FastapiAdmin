@@ -166,9 +166,9 @@ defineExpose({ setCron });
 
 <style lang="scss" scoped>
 .interval-tab-form {
-  width: 100%;
   flex-wrap: wrap;
   gap: 16px 8px;
+  width: 100%;
 }
 
 .form-item {
@@ -177,11 +177,11 @@ defineExpose({ setCron });
 }
 
 .form-actions {
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
   gap: 8px;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 16px;
 }
 
 // 响应式调整

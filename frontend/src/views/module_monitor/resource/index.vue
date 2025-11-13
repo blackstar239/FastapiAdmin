@@ -787,12 +787,12 @@ onMounted(() => {
 .data-table__content {
   .file-name {
     display: flex;
-    align-items: center;
     gap: 8px;
+    align-items: center;
 
     .file-name-clickable {
-      cursor: pointer;
       color: var(--el-color-primary);
+      cursor: pointer;
 
       &:hover {
         color: var(--el-color-primary-light-3);
@@ -805,31 +805,31 @@ onMounted(() => {
 .grid-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  height: calc(100vh - 200px);
   gap: 20px;
+  height: calc(100vh - 200px);
 
   .grid-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
     // 使用系统主题颜色
     border-radius: 8px;
-    cursor: pointer;
     transition: all 0.3s;
 
     .item-name {
+      margin-bottom: 5px;
       font-size: 14px;
       text-align: center;
       word-break: break-all;
-      margin-bottom: 5px;
     }
   }
 }
 
 :deep(.el-breadcrumb__item) {
   &.is-link {
-    cursor: pointer;
     color: var(--el-color-primary);
+    cursor: pointer;
 
     &:hover {
       color: var(--el-color-primary-light-3);
