@@ -506,28 +506,28 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .app-grid-card {
-  height: calc(100vh - 200px);
   position: relative;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 200px);
 
   :deep(.el-card__footer) {
-    margin-top: auto;
     display: flex;
     justify-content: flex-end;
+    margin-top: auto;
   }
 }
 
 .card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   flex: 1;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
 .app-card-el {
@@ -544,21 +544,21 @@ onMounted(() => {
 
 .app-info-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
   flex: 1;
+  gap: 12px;
+  align-items: center;
   min-width: 0;
 }
 
 .app-name-el {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--el-text-color-primary);
   margin: 0 0 4px 0;
-  line-height: 1.3;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--el-text-color-primary);
+  white-space: nowrap;
 }
 
 .app-card-content {
@@ -566,13 +566,13 @@ onMounted(() => {
 }
 
 .app-description {
-  font-size: 14px;
-  color: var(--el-text-color-regular);
   display: -webkit-box;
+  overflow: hidden;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  font-size: 14px;
+  color: var(--el-text-color-regular);
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .app-meta-info {
@@ -585,17 +585,17 @@ onMounted(() => {
 
 .app-meta-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 12px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .meta-item {
   display: flex;
-  align-items: center;
   gap: 6px;
-  white-space: nowrap;
+  align-items: center;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .meta-item.left {
@@ -607,13 +607,13 @@ onMounted(() => {
 .meta-item.right {
   flex: 1;
   justify-content: flex-end;
-  text-align: right;
   min-width: 0;
+  text-align: right;
 }
 
 .meta-icon {
-  color: var(--el-text-color-placeholder);
   flex-shrink: 0;
+  color: var(--el-text-color-placeholder);
 }
 
 .meta-item span {
@@ -629,8 +629,8 @@ onMounted(() => {
 
   .action-btn {
     flex: 1;
-    font-size: 12px;
     padding: 4px 8px;
+    font-size: 12px;
   }
 }
 
@@ -641,7 +641,7 @@ onMounted(() => {
 
 .dialog-footer {
   display: flex;
-  justify-content: flex-end;
   gap: 12px;
+  justify-content: flex-end;
 }
 </style>

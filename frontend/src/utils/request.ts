@@ -85,6 +85,7 @@ httpRequest.interceptors.response.use(
           return Promise.reject(new Error(jsonData.msg || "服务异常"));
         }
       } catch (e) {
+        console.error("请求异常:", e);
         // 如果无法解析为JSON，则使用默认错误处理
         ElMessage.error(error.message || "请求异常");
         return Promise.reject(new Error(error.message || "请求异常"));

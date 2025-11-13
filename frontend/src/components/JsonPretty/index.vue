@@ -43,20 +43,20 @@ const displayText = computed(() => {
 
 <style scoped>
 .json-pretty-wrapper {
-  overflow: auto;
-  border: 1px solid #e5e7eb;
   padding: 8px;
-  border-radius: 4px;
+  overflow: auto;
   background-color: var(--el-fill-color-blank);
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
 }
 
 .json-pretty-fallback {
-  white-space: pre-wrap;
-  word-break: break-word;
   margin: 0;
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
   font-size: 12px;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 </style>

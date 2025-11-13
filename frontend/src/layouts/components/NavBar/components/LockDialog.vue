@@ -102,8 +102,8 @@ const handleLock = async () => {
     }
 
     &-name {
-      font-size: 14px;
       margin: 10px 0;
+      font-size: 14px;
       color: var(--top-header-text-color);
     }
   }

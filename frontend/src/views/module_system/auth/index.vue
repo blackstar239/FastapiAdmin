@@ -116,13 +116,9 @@ onMounted(() => {
   justify-content: center;
   width: 100%;
   height: 100%;
-}
-
-// 添加伪元素作为背景层
-.login-container {
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .action-bar {

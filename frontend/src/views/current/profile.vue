@@ -592,8 +592,8 @@ onMounted(async () => {
   align-items: center;
 
   .avatar-wrapper {
-    margin-bottom: 16px;
     position: relative;
+    margin-bottom: 16px;
 
     .el-upload {
       &:hover {
@@ -605,12 +605,12 @@ onMounted(async () => {
       // top: 50%;
       // left: 50%;
       position: absolute;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      border-radius: 50%;
       width: 28px;
       height: 28px;
       background: var(--el-color-primary);
+      border-radius: 50%;
+      opacity: 0;
+      transform: translate(-50%, -50%);
     }
 
     /* 提升 hover 样式优先级 */

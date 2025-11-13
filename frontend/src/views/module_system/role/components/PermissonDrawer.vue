@@ -53,7 +53,7 @@
                 default-expand-all
                 :highlight-current="true"
                 :check-strictly="!parentChildLinked"
-                style="height: calc(100% - 60px); overflow-y: auto; margin-top: 10px"
+                style="height: calc(100% - 60px); margin-top: 10px; overflow-y: auto"
                 @check="deptTreeCheck"
               >
                 <template #empty>
@@ -119,7 +119,7 @@
             default-expand-all
             :highlight-current="true"
             :check-strictly="!parentChildLinked"
-            style="height: calc(100% - 60px); overflow: auto; margin-top: 10px"
+            style="height: calc(100% - 60px); margin-top: 10px; overflow: auto"
             @check="menuTreeCheck"
           >
             <template #empty>

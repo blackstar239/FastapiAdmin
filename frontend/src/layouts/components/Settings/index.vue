@@ -648,6 +648,123 @@ const handleCloseDrawer = () => {
   }
 }
 
+/* 主题颜色选择器样式 */
+.theme-color-selector {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  .color-label {
+    flex-shrink: 0;
+    min-width: 60px;
+  }
+
+  .color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .color-option {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    border: 2px solid var(--el-border-color-light);
+    border-radius: 6px;
+    box-shadow: var(--el-box-shadow-light);
+    transition: all 0.3s var(--el-transition-duration);
+
+    &:hover {
+      border-color: var(--el-color-primary-light-3);
+      box-shadow: var(--el-box-shadow);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    &.is-active {
+      border-color: var(--el-color-primary);
+      box-shadow: var(--el-box-shadow-dark);
+      transform: translateY(-1px) scale(1.08);
+    }
+
+    .color-check {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+      color: var(--el-color-white);
+      background: var(--el-overlay-color-lighter);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .color-picker-wrapper {
+    .custom-color-picker {
+      :deep(.el-color-picker__trigger) {
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--el-border-color-light);
+        border-radius: 6px;
+        box-shadow: var(--el-box-shadow-light);
+        transition: all 0.3s var(--el-transition-duration);
+
+        &:hover {
+          border-color: var(--el-color-primary-light-3);
+          box-shadow: var(--el-box-shadow);
+          transform: translateY(-2px) scale(1.05);
+        }
+      }
+
+      :deep(.el-color-picker__color) {
+        border: none;
+        border-radius: 3px;
+      }
+
+      :deep(.el-color-picker__color-inner) {
+        border-radius: 3px;
+      }
+
+      :deep(.el-color-picker__icon) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  /* 深色模式适配 */
+  .dark & {
+    .color-option {
+      border-color: var(--el-border-color);
+      box-shadow: var(--el-box-shadow-light);
+
+      &:hover {
+        border-color: var(--el-color-primary-light-3);
+        box-shadow: var(--el-box-shadow);
+      }
+    }
+
+    .color-picker-wrapper {
+      .custom-color-picker {
+        :deep(.el-color-picker__trigger) {
+          border-color: var(--el-border-color);
+          box-shadow: var(--el-box-shadow-light);
+
+          &:hover {
+            border-color: var(--el-color-primary-light-3);
+            box-shadow: var(--el-box-shadow);
+          }
+        }
+      }
+    }
+  }
+}
+
 /* 深色模式适配 */
 .dark {
   .action-footer {
@@ -673,125 +790,6 @@ const handleCloseDrawer = () => {
 
     .layout-main {
       background: var(--el-fill-color);
-    }
-  }
-}
-
-/* 主题颜色选择器样式 */
-.theme-color-selector {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  .color-label {
-    flex-shrink: 0;
-    min-width: 60px;
-  }
-
-  .color-options {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .color-option {
-    position: relative;
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-    border: 2px solid var(--el-border-color-light);
-    border-radius: 6px;
-    transition: all 0.3s var(--el-transition-duration);
-    box-shadow: var(--el-box-shadow-light);
-
-    &:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: var(--el-box-shadow);
-      border-color: var(--el-color-primary-light-3);
-    }
-
-    &.is-active {
-      border-color: var(--el-color-primary);
-      transform: translateY(-1px) scale(1.08);
-      box-shadow: var(--el-box-shadow-dark);
-    }
-
-    .color-check {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 16px;
-      height: 16px;
-      color: var(--el-color-white);
-      background: var(--el-overlay-color-lighter);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 10px;
-    }
-  }
-
-  .color-picker-wrapper {
-    .custom-color-picker {
-      :deep(.el-color-picker__trigger) {
-        width: 22px;
-        height: 22px;
-        border: 2px solid var(--el-border-color-light);
-        border-radius: 6px;
-        transition: all 0.3s var(--el-transition-duration);
-        box-shadow: var(--el-box-shadow-light);
-
-        &:hover {
-          transform: translateY(-2px) scale(1.05);
-          box-shadow: var(--el-box-shadow);
-          border-color: var(--el-color-primary-light-3);
-        }
-      }
-
-      :deep(.el-color-picker__color) {
-        border: none;
-        border-radius: 3px;
-      }
-
-      :deep(.el-color-picker__color-inner) {
-        border-radius: 3px;
-      }
-
-      :deep(.el-color-picker__icon) {
-        font-size: 10px;
-      }
-    }
-  }
-}
-
-/* 深色模式适配 */
-.dark {
-  .theme-color-selector {
-    .color-option {
-      border-color: var(--el-border-color);
-      box-shadow: var(--el-box-shadow-light);
-
-      &:hover {
-        border-color: var(--el-color-primary-light-3);
-        box-shadow: var(--el-box-shadow);
-      }
-    }
-
-    .color-picker-wrapper {
-      .custom-color-picker {
-        :deep(.el-color-picker__trigger) {
-          border-color: var(--el-border-color);
-          box-shadow: var(--el-box-shadow-light);
-
-          &:hover {
-            border-color: var(--el-color-primary-light-3);
-            box-shadow: var(--el-box-shadow);
-          }
-        }
-      }
     }
   }
 }
