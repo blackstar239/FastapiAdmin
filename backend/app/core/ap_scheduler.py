@@ -229,7 +229,7 @@ class SchedulerUtil:
         # 1. 解析调用目标
         # app.module_task.scheduler_test.job
         module_path, func_name = str(job_info.func).rsplit('.', 1)
-        module_path = "app.module_task." + module_path
+        module_path = "app.api.v1.module_application.job.function_task." + module_path
         try:
             module = importlib.import_module(module_path)
             job_func = getattr(module, func_name)
