@@ -123,7 +123,7 @@ class Jinja2TemplateUtil:
     def get_template_list(cls):
         """
         获取模板列表。
-        
+
         参数:
         - 无
         返回:

@@ -5,7 +5,7 @@ import os
 import zipfile
 from typing import Any
 from sqlglot.expressions import Add, Alter, Create, Delete, Drop, Expression, Insert, Table, TruncateTable, Update
-from sqlglot import parse as sqlglot_parse
+import sqlglot
 
 from app.config.path_conf import BASE_DIR
 from app.config.setting import settings
@@ -167,16 +167,31 @@ class GenTableService:
             raise CustomException(msg='SQL语句不能为空')
         try:
             # 解析SQL语句
-            sql_statements = sqlglot_parse(sql, dialect=settings.DATABASE_TYPE)
+            sql_statements = sqlglot.parse(sql, dialect=settings.DATABASE_TYPE)
             if not sql_statements:
                 raise CustomException(msg='无法解析SQL语句，请检查SQL语法')
             
             # 校验sql语句是否为合法的建表语句
-            if not cls.__is_valid_create_table(sql_statements):
+            validate_create = [isinstance(sql_statement, Create) for sql_statement in sql_statements]
+            validate_forbidden_keywords = [
+                isinstance(
+                    sql_statement,
+                    (Add, Alter, Delete, Drop, Insert, TruncateTable, Update),
+                )
+                for sql_statement in sql_statements
+            ]
+            if not any(validate_create) or any(validate_forbidden_keywords):
                 raise CustomException(msg='sql语句不是合法的建表语句')
             
             # 获取要创建的表名
-            table_names = cls.__get_table_names(sql_statements)            
+            table_names = []
+            for sql_statement in sql_statements:
+                if isinstance(sql_statement, Create):
+                    table = sql_statement.find(Table)
+                    if table and table.name:
+                        table_names.append(table.name)
+            table_names = list(set(table_names)) 
+            
             # 创建CRUD实例
             gen_table_crud = GenTableCRUD(auth=auth)
             
@@ -192,61 +207,17 @@ class GenTableService:
                     raise CustomException(msg=f'表 {table_name} 已在代码生成模块中存在，请检查并修改表名后重试')
             
             # 表不存在，执行SQL语句创建表
-            result = await gen_table_crud.create_table_by_sql(sql_statements)
-            if not result:
-                raise CustomException(msg=f'创建表 {table_names} 失败，请检查SQL语句')
-            
-            # 导入表结构到代码生成模块 - 简化逻辑，移除多余的None检查
-            gen_table_list = await cls.get_gen_db_table_list_by_name_service(auth, table_names)
-            
-            import_result = await cls.import_gen_table_service(auth, gen_table_list)
-
-            return import_result
+            for sql_statement in sql_statements:
+                if not isinstance(sql_statement, Create):
+                    continue
+                exc_sql = sql_statement.sql(dialect=settings.DATABASE_TYPE)
+                log.info(f'执行SQL语句: {exc_sql}')
+                if not await gen_table_crud.execute_sql(exc_sql):
+                    raise CustomException(msg=f'执行SQL语句 {exc_sql} 失败，请检查数据库')
+            return True
             
         except Exception as e:
             raise CustomException(msg=f'创建表结构失败: {str(e)}')
-    
-    @classmethod
-    def __is_valid_create_table(cls, sql_statements: list[Expression | None]) -> bool:
-        """
-        校验SQL语句是否为合法的建表语句。
-    
-        参数:
-        - sql_statements (list[Expression | None]): SQL的AST列表。
-    
-        返回:
-        - bool: 校验结果。
-        """
-        validate_create = [isinstance(sql_statement, Create) for sql_statement in sql_statements]
-        validate_forbidden_keywords = [
-            isinstance(
-                sql_statement,
-                (Add, Alter, Delete, Drop, Insert, TruncateTable, Update),
-            )
-            for sql_statement in sql_statements
-        ]
-        if not any(validate_create) or any(validate_forbidden_keywords):
-            return False
-        return True
-    
-    @classmethod
-    def __get_table_names(cls, sql_statements: list[Expression | None]) -> list[str]:
-        """
-        获取SQL语句中所有的建表表名。
-    
-        参数:
-        - sql_statements (list[Expression | None]): SQL的AST列表。
-    
-        返回:
-        - list[str]: 建表表名列表。
-        """
-        table_names = []
-        for sql_statement in sql_statements:
-            if isinstance(sql_statement, Create):
-                table = sql_statement.find(Table)
-                if table and table.name:
-                    table_names.append(table.name)
-        return list(set(table_names))
 
     @classmethod
     @handle_service_exception
@@ -408,6 +379,8 @@ class GenTableService:
             raise CustomException(msg='业务名称不能为空')
         if not gen_table_schema.function_name:
             raise CustomException(msg='功能名称不能为空')
+        if not gen_table_schema.package_name:
+            raise CustomException(msg='包名不能为空')
         # 1. 先检查并创建菜单（目录菜单、功能菜单、按钮权限）
         # 检查是否需要创建目录菜单
         if gen_table_schema.parent_menu_id:
@@ -421,24 +394,24 @@ class GenTableService:
             else:
                 dir_parent_menu = await menu_crud.create(
                     MenuCreateSchema(
-                        name=gen_table_schema.business_name,
+                        name=gen_table_schema.package_name,
                         type=1,
                         order=9999,
-                        permission=f"{permission_prefix}:query",
+                        permission=None,
                         icon="menu",
-                        route_name=CamelCaseUtil.snake_to_camel(gen_table_schema.business_name),
-                        route_path=f"/{gen_table_schema.module_name}/{gen_table_schema.business_name}",
+                        route_name=CamelCaseUtil.snake_to_camel(gen_table_schema.package_name),
+                        route_path=f"/{gen_table_schema.package_name}",
                         component_path=None,
-                        redirect=None,
+                        redirect=f"/{gen_table_schema.package_name}/{gen_table_schema.business_name}",
                         hidden=False,
                         keep_alive=True,
                         always_show=False,
-                        title=gen_table_schema.business_name,
+                        title=gen_table_schema.package_name,
                         params=None,
                         affix=False,
                         parent_id=gen_table_schema.parent_menu_id,  # 这里应该是None，因为上面已经判断过了
                         status="0",
-                        description=f"{gen_table_schema.business_name}模块目录菜单"
+                        description=f"{gen_table_schema.business_name}目录"
                     )
                 )
                 dir_menu_id = dir_parent_menu.id
@@ -456,9 +429,9 @@ class GenTableService:
                     order=9999,
                     permission=f"{permission_prefix}:query",
                     icon="menu",
-                    route_name=CamelCaseUtil.snake_to_camel(gen_table_schema.function_name),
-                    route_path=f"/{gen_table_schema.module_name}/{gen_table_schema.business_name}/{gen_table_schema.function_name}",
-                    component_path=f"{gen_table_schema.module_name}/{gen_table_schema.business_name}/{gen_table_schema.function_name}/index",
+                    route_name=CamelCaseUtil.snake_to_camel(gen_table_schema.business_name),
+                    route_path=f"/{gen_table_schema.package_name}/{gen_table_schema.business_name}",
+                    component_path=f"{gen_table_schema.module_name}/{gen_table_schema.business_name}/index",
                     redirect=None,
                     hidden=False,
                     keep_alive=True,
@@ -521,40 +494,40 @@ class GenTableService:
         ]
         for button in buttons:
             # 检查按钮权限是否已存在
-            existing_button = await menu_crud.get(permission=button["permission"])
-            if not existing_button:
-                await menu_crud.create(
-                    MenuCreateSchema(
-                        name=button["name"],
-                        type=3,
-                        order=button["order"],
-                        permission=button["permission"],
-                        icon=None,
-                        route_name=None,
-                        route_path=None,
-                        component_path=None,
-                        redirect=None,
-                        hidden=False,
-                        keep_alive=True,
-                        always_show=False,
-                        title=button["name"],
-                        params=None,
-                        affix=False,
-                        parent_id=parent_menu.id,
-                        status="0",
-                        description=f"{gen_table_schema.function_name}功能按钮"
-                    )
+            await menu_crud.create(
+                MenuCreateSchema(
+                    name=button["name"],
+                    type=3,
+                    order=button["order"],
+                    permission=button["permission"],
+                    icon=None,
+                    route_name=None,
+                    route_path=None,
+                    component_path=None,
+                    redirect=None,
+                    hidden=False,
+                    keep_alive=True,
+                    always_show=False,
+                    title=button["name"],
+                    params=None,
+                    affix=False,
+                    parent_id=parent_menu.id,
+                    status="0",
+                    description=f"{gen_table_schema.function_name}功能按钮"
                 )
-                log.info(f"成功创建按钮权限: {button['name']}")
-            else:
-                log.info(f"按钮权限 {button['name']} 已存在（权限标识：{button['permission']}），跳过创建")
+            )
+            log.info(f"成功创建按钮权限: {button['name']}")
         log.info(f"成功创建{gen_table_schema.function_name}菜单及按钮权限")
         
         # 2. 菜单创建成功后，再生成页面代码
         for template in render_info[0]:
             try:
                 render_content = await env.get_template(template).render_async(**render_info[2])
-                gen_path = cls.__get_gen_path(gen_table_schema, template)
+
+                file_name = Jinja2TemplateUtil.get_file_name(template, gen_table_schema)
+                full_path = BASE_DIR.parent.joinpath(file_name)
+                gen_path =  str(full_path)
+                
                 if not gen_path:
                     raise CustomException(msg='【代码生成】生成路径为空')
 
@@ -563,6 +536,13 @@ class GenTableService:
 
                 with open(gen_path, 'w', encoding='utf-8') as f:
                     f.write(render_content)
+                
+                module_init_path = BASE_DIR.parent.joinpath(f'backend/app/api/v1/{gen_table_schema.module_name}/__init__.py')
+                if not module_init_path.exists():
+                    # 创建module_name目录的__init__.py文件
+                    os.makedirs(os.path.dirname(module_init_path), exist_ok=True)
+                    with open(module_init_path, 'w', encoding='utf-8') as f:
+                        f.write('# -*- coding: utf-8 -*-')
             except Exception as e:
                 raise CustomException(msg=f'渲染模板失败，表名：{gen_table_schema.table_name}，详细错误信息：{str(e)}')
         

@@ -683,7 +683,16 @@ ALTER TABLE public.apscheduler_jobs OWNER TO tao;
 --
 
 CREATE TABLE public.gen_demo (
-    name character varying(64),
+    name character varying(64) NOT NULL,
+    a integer,
+    b bigint,
+    c double precision,
+    d boolean NOT NULL,
+    e date,
+    f time without time zone,
+    g timestamp without time zone,
+    h text,
+    i json,
     id integer NOT NULL,
     uuid character varying(64) NOT NULL,
     status character varying(10) NOT NULL,
@@ -709,6 +718,69 @@ COMMENT ON TABLE public.gen_demo IS '示例表';
 --
 
 COMMENT ON COLUMN public.gen_demo.name IS '名称';
+
+
+--
+-- Name: COLUMN gen_demo.a; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.a IS '整数';
+
+
+--
+-- Name: COLUMN gen_demo.b; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.b IS '大整数';
+
+
+--
+-- Name: COLUMN gen_demo.c; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.c IS '浮点数';
+
+
+--
+-- Name: COLUMN gen_demo.d; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.d IS '布尔型';
+
+
+--
+-- Name: COLUMN gen_demo.e; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.e IS '日期';
+
+
+--
+-- Name: COLUMN gen_demo.f; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.f IS '时间';
+
+
+--
+-- Name: COLUMN gen_demo.g; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.g IS '日期时间';
+
+
+--
+-- Name: COLUMN gen_demo.h; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.h IS '长文本';
+
+
+--
+-- Name: COLUMN gen_demo.i; Type: COMMENT; Schema: public; Owner: tao
+--
+
+COMMENT ON COLUMN public.gen_demo.i IS '元数据(JSON格式)';
 
 
 --
@@ -3048,7 +3120,7 @@ COPY public.apscheduler_jobs (id, next_run_time, job_state) FROM stdin;
 -- Data for Name: gen_demo; Type: TABLE DATA; Schema: public; Owner: tao
 --
 
-COPY public.gen_demo (name, id, uuid, status, description, created_time, updated_time, created_id, updated_id) FROM stdin;
+COPY public.gen_demo (name, a, b, c, d, e, f, g, h, i, id, uuid, status, description, created_time, updated_time, created_id, updated_id) FROM stdin;
 \.
 
 
@@ -3073,7 +3145,7 @@ COPY public.gen_table_column (column_name, column_comment, column_type, column_l
 --
 
 COPY public.sys_dept (name, "order", code, leader, phone, email, parent_id, id, uuid, status, description, created_time, updated_time, created_id, updated_id) FROM stdin;
-集团总公司	1	GROUP	部门负责人	1582112620	deptadmin@example.com	\N	1	0145b7e5-6c2a-4f54-b106-e65e34fa0d69	0	集团总公司	2025-12-31 18:45:46.303574	2025-12-31 18:45:46.303575	\N	\N
+集团总公司	1	GROUP	部门负责人	1582112620	deptadmin@example.com	\N	1	8d654e65-99ff-4387-a37c-84d62a88a028	0	集团总公司	2026-01-03 21:32:18.926144	2026-01-03 21:32:18.926145	\N	\N
 \.
 
 
@@ -3082,40 +3154,40 @@ COPY public.sys_dept (name, "order", code, leader, phone, email, parent_id, id, 
 --
 
 COPY public.sys_dict_data (dict_sort, dict_label, dict_value, css_class, list_class, is_default, dict_type, dict_type_id, id, uuid, status, description, created_time, updated_time) FROM stdin;
-1	男	0	blue	\N	t	sys_user_sex	1	1	45f88999-98f1-4a6d-8beb-1228ec76b1b7	0	性别男	2025-12-31 18:45:46.313333	2025-12-31 18:45:46.313335
-2	女	1	pink	\N	f	sys_user_sex	1	2	86001879-eadf-4c63-ba22-000e7cda8faf	0	性别女	2025-12-31 18:45:46.313339	2025-12-31 18:45:46.31334
-3	未知	2	red	\N	f	sys_user_sex	1	3	5b8039f1-fd12-4c63-8f39-354f40bdb825	0	性别未知	2025-12-31 18:45:46.313343	2025-12-31 18:45:46.313343
-1	是	1		primary	t	sys_yes_no	2	4	c82242d3-7deb-4735-8e20-77cdb841b558	0	是	2025-12-31 18:45:46.313346	2025-12-31 18:45:46.313346
-2	否	0		danger	f	sys_yes_no	2	5	b3b12d65-c8d6-4f86-bc0a-54526b305659	0	否	2025-12-31 18:45:46.313349	2025-12-31 18:45:46.31335
-1	启用	1		primary	f	sys_common_status	3	6	082d1b6b-a26e-4fb7-95d3-4432808ff9ff	0	启用状态	2025-12-31 18:45:46.313353	2025-12-31 18:45:46.313353
-2	停用	0		danger	f	sys_common_status	3	7	5ce59668-1a13-4b27-8683-2439b3a823d6	0	停用状态	2025-12-31 18:45:46.313356	2025-12-31 18:45:46.313357
-1	通知	1	blue	warning	t	sys_notice_type	4	8	984c4888-f2bf-4c5e-ae22-34101ec06c5e	0	通知	2025-12-31 18:45:46.313359	2025-12-31 18:45:46.31336
-2	公告	2	orange	success	f	sys_notice_type	4	9	9b9799ce-6993-4277-a95d-5352bbd7b533	0	公告	2025-12-31 18:45:46.313363	2025-12-31 18:45:46.313363
-99	其他	0		info	f	sys_oper_type	5	10	3fc86898-676a-45ea-815a-bea1737277fd	0	其他操作	2025-12-31 18:45:46.313366	2025-12-31 18:45:46.313367
-1	新增	1		info	f	sys_oper_type	5	11	fc563de5-b34a-45ed-a3e1-e934ac4b8623	0	新增操作	2025-12-31 18:45:46.313369	2025-12-31 18:45:46.31337
-2	修改	2		info	f	sys_oper_type	5	12	2f81625a-f21d-4296-835a-4b20c94ce9d5	0	修改操作	2025-12-31 18:45:46.313373	2025-12-31 18:45:46.313373
-3	删除	3		danger	f	sys_oper_type	5	13	0603e2d6-37c1-4c00-a5c9-51531e5486f0	0	删除操作	2025-12-31 18:45:46.313376	2025-12-31 18:45:46.313376
-4	分配权限	4		primary	f	sys_oper_type	5	14	c7915277-c00b-4a45-b977-f035ef89a0cd	0	授权操作	2025-12-31 18:45:46.313379	2025-12-31 18:45:46.31338
-5	导出	5		warning	f	sys_oper_type	5	15	c5f47e01-97ac-4400-a806-cbf4a4024669	0	导出操作	2025-12-31 18:45:46.313382	2025-12-31 18:45:46.313383
-6	导入	6		warning	f	sys_oper_type	5	16	7fad01c6-6fc8-4ad9-967d-03e6ce2f0816	0	导入操作	2025-12-31 18:45:46.313386	2025-12-31 18:45:46.313386
-7	强退	7		danger	f	sys_oper_type	5	17	81fdd881-bb39-4311-a654-ce9533ed608c	0	强退操作	2025-12-31 18:45:46.313389	2025-12-31 18:45:46.313389
-8	生成代码	8		warning	f	sys_oper_type	5	18	10764ecd-d433-47c7-a158-f0f2ca00f1f3	0	生成操作	2025-12-31 18:45:46.313392	2025-12-31 18:45:46.313393
-9	清空数据	9		danger	f	sys_oper_type	5	19	d10e04df-a494-48ff-a5c8-ae33b1780686	0	清空操作	2025-12-31 18:45:46.313396	2025-12-31 18:45:46.313396
-1	默认(Memory)	default		\N	t	sys_job_store	6	20	6f9fbafb-2e1d-4631-905a-4cd5f0901601	0	默认分组	2025-12-31 18:45:46.313399	2025-12-31 18:45:46.313399
-2	数据库(Sqlalchemy)	sqlalchemy		\N	f	sys_job_store	6	21	f71f7067-6ed5-414a-b9fc-d6c7ce91b999	0	数据库分组	2025-12-31 18:45:46.313402	2025-12-31 18:45:46.313402
-3	数据库(Redis)	redis		\N	f	sys_job_store	6	22	c5f184c0-6f5a-490a-971a-802702667d5c	0	reids分组	2025-12-31 18:45:46.313405	2025-12-31 18:45:46.313406
-1	线程池	default		\N	f	sys_job_executor	7	23	9d3975de-0ff7-4f64-a315-04cac2badfed	0	线程池	2025-12-31 18:45:46.313408	2025-12-31 18:45:46.313409
-2	进程池	processpool		\N	f	sys_job_executor	7	24	1ba854ac-2506-4001-803f-6d09ac69b9f1	0	进程池	2025-12-31 18:45:46.313412	2025-12-31 18:45:46.313412
-1	演示函数	scheduler_test.job		\N	t	sys_job_function	8	25	274f8a25-3b73-4ca7-919e-7141d2c961ea	0	演示函数	2025-12-31 18:45:46.313415	2025-12-31 18:45:46.313415
-1	指定日期(date)	date		\N	t	sys_job_trigger	9	26	bc634fb5-70c7-47cc-8d74-a0f99cdc2a01	0	指定日期任务触发器	2025-12-31 18:45:46.313418	2025-12-31 18:45:46.313419
-2	间隔触发器(interval)	interval		\N	f	sys_job_trigger	9	27	af7368e0-be6f-495f-a617-8a659d985c41	0	间隔触发器任务触发器	2025-12-31 18:45:46.313421	2025-12-31 18:45:46.313422
-3	cron表达式	cron		\N	f	sys_job_trigger	9	28	f663e3e4-f1ac-46ca-bb66-ccd7aae460bd	0	间隔触发器任务触发器	2025-12-31 18:45:46.313425	2025-12-31 18:45:46.313425
-1	默认(default)	default		\N	t	sys_list_class	10	29	e80b96a9-3a20-482f-a136-6ceff9b5f440	0	默认表格回显样式	2025-12-31 18:45:46.313428	2025-12-31 18:45:46.313428
-2	主要(primary)	primary		\N	f	sys_list_class	10	30	fcca2f87-7219-40a2-ad99-07b50a99515e	0	主要表格回显样式	2025-12-31 18:45:46.313431	2025-12-31 18:45:46.313431
-3	成功(success)	success		\N	f	sys_list_class	10	31	79770307-e0ce-4b82-8102-400522052360	0	成功表格回显样式	2025-12-31 18:45:46.313434	2025-12-31 18:45:46.313435
-4	信息(info)	info		\N	f	sys_list_class	10	32	28a24d90-3b49-494d-8b78-3c94ecfce187	0	信息表格回显样式	2025-12-31 18:45:46.313437	2025-12-31 18:45:46.313438
-5	警告(warning)	warning		\N	f	sys_list_class	10	33	9f12764b-2533-4b9b-824e-d52b71c5aa1b	0	警告表格回显样式	2025-12-31 18:45:46.31344	2025-12-31 18:45:46.313441
-6	危险(danger)	danger		\N	f	sys_list_class	10	34	c5ad3ead-35bb-4ace-adb8-1feda60d9892	0	危险表格回显样式	2025-12-31 18:45:46.313444	2025-12-31 18:45:46.313444
+1	男	0	blue	\N	t	sys_user_sex	1	1	bd6a2210-c201-41e8-a88e-9d70f21af893	0	性别男	2026-01-03 21:32:18.934083	2026-01-03 21:32:18.934084
+2	女	1	pink	\N	f	sys_user_sex	1	2	41a3ebab-d0d4-47b5-9b46-4d090c3328fb	0	性别女	2026-01-03 21:32:18.934087	2026-01-03 21:32:18.934088
+3	未知	2	red	\N	f	sys_user_sex	1	3	9b16809d-943e-4bca-ae8e-e9d97a05f3fa	0	性别未知	2026-01-03 21:32:18.934091	2026-01-03 21:32:18.934091
+1	是	1		primary	t	sys_yes_no	2	4	cca9a62e-ddeb-4aca-bb45-7de890e39c09	0	是	2026-01-03 21:32:18.934094	2026-01-03 21:32:18.934094
+2	否	0		danger	f	sys_yes_no	2	5	c316ecf0-d687-4189-8e06-97c9193d7f7b	0	否	2026-01-03 21:32:18.934097	2026-01-03 21:32:18.934097
+1	启用	1		primary	f	sys_common_status	3	6	93b2ed52-6cc0-40a1-af69-c63fb6a45ffc	0	启用状态	2026-01-03 21:32:18.9341	2026-01-03 21:32:18.934101
+2	停用	0		danger	f	sys_common_status	3	7	52af9571-5ef4-4139-9884-1e992b84f495	0	停用状态	2026-01-03 21:32:18.934105	2026-01-03 21:32:18.934105
+1	通知	1	blue	warning	t	sys_notice_type	4	8	561c4aa2-5c1d-453c-8a40-2174bdde1d7c	0	通知	2026-01-03 21:32:18.934109	2026-01-03 21:32:18.934109
+2	公告	2	orange	success	f	sys_notice_type	4	9	1c9747bc-cf5d-4dfd-ba33-b4807c6e58da	0	公告	2026-01-03 21:32:18.934113	2026-01-03 21:32:18.934113
+99	其他	0		info	f	sys_oper_type	5	10	409b6db6-191c-418c-9959-7bde1364d07c	0	其他操作	2026-01-03 21:32:18.934117	2026-01-03 21:32:18.934117
+1	新增	1		info	f	sys_oper_type	5	11	d9a58448-fe91-4bf4-9e19-b64f66951a2c	0	新增操作	2026-01-03 21:32:18.934121	2026-01-03 21:32:18.934121
+2	修改	2		info	f	sys_oper_type	5	12	f587833d-ae30-4280-beea-a531a42fd60f	0	修改操作	2026-01-03 21:32:18.934124	2026-01-03 21:32:18.934124
+3	删除	3		danger	f	sys_oper_type	5	13	128f44ac-dbac-4370-96d3-ecca27bde3f5	0	删除操作	2026-01-03 21:32:18.934127	2026-01-03 21:32:18.934127
+4	分配权限	4		primary	f	sys_oper_type	5	14	0acbce3f-60ac-4002-8e51-df3e384e8437	0	授权操作	2026-01-03 21:32:18.93413	2026-01-03 21:32:18.934131
+5	导出	5		warning	f	sys_oper_type	5	15	783e208b-e6b6-45db-8a42-da13383340dd	0	导出操作	2026-01-03 21:32:18.934133	2026-01-03 21:32:18.934134
+6	导入	6		warning	f	sys_oper_type	5	16	30bf7414-46da-454f-96d2-aead5a349e39	0	导入操作	2026-01-03 21:32:18.934137	2026-01-03 21:32:18.934137
+7	强退	7		danger	f	sys_oper_type	5	17	4f69e213-23eb-4003-a68f-ae1d19b1c0be	0	强退操作	2026-01-03 21:32:18.93414	2026-01-03 21:32:18.93414
+8	生成代码	8		warning	f	sys_oper_type	5	18	45aa655b-a610-43da-a26f-89591d289286	0	生成操作	2026-01-03 21:32:18.934143	2026-01-03 21:32:18.934143
+9	清空数据	9		danger	f	sys_oper_type	5	19	d9e62139-5093-4434-a7ae-2f228bb06ee2	0	清空操作	2026-01-03 21:32:18.934146	2026-01-03 21:32:18.934146
+1	默认(Memory)	default		\N	t	sys_job_store	6	20	b05a55b9-819e-420c-b195-919642f8cecd	0	默认分组	2026-01-03 21:32:18.934149	2026-01-03 21:32:18.934149
+2	数据库(Sqlalchemy)	sqlalchemy		\N	f	sys_job_store	6	21	839b814f-e46f-446d-bbc4-3e383398a4f6	0	数据库分组	2026-01-03 21:32:18.934152	2026-01-03 21:32:18.934152
+3	数据库(Redis)	redis		\N	f	sys_job_store	6	22	3e96b9aa-1d44-4d8d-a0d8-8a8e122992c3	0	reids分组	2026-01-03 21:32:18.934155	2026-01-03 21:32:18.934155
+1	线程池	default		\N	f	sys_job_executor	7	23	6ba38fd3-a029-4062-9020-7a641b58b931	0	线程池	2026-01-03 21:32:18.934158	2026-01-03 21:32:18.934158
+2	进程池	processpool		\N	f	sys_job_executor	7	24	3268717a-2355-4a6d-8d41-37520c6fd3bc	0	进程池	2026-01-03 21:32:18.934161	2026-01-03 21:32:18.934161
+1	演示函数	scheduler_test.job		\N	t	sys_job_function	8	25	e23a88c8-9893-4b5e-b7c6-5ca0f4503166	0	演示函数	2026-01-03 21:32:18.934164	2026-01-03 21:32:18.934165
+1	指定日期(date)	date		\N	t	sys_job_trigger	9	26	9eae1ac4-ecba-45f6-a647-be55d28ee6fe	0	指定日期任务触发器	2026-01-03 21:32:18.934168	2026-01-03 21:32:18.934169
+2	间隔触发器(interval)	interval		\N	f	sys_job_trigger	9	27	5cdefb4c-37f1-449a-8943-817e43584928	0	间隔触发器任务触发器	2026-01-03 21:32:18.934171	2026-01-03 21:32:18.934172
+3	cron表达式	cron		\N	f	sys_job_trigger	9	28	9ef32420-9fad-4afd-8551-c65f96452906	0	间隔触发器任务触发器	2026-01-03 21:32:18.934175	2026-01-03 21:32:18.934175
+1	默认(default)	default		\N	t	sys_list_class	10	29	9b5beaef-1c70-4efe-a5cc-0ad4bb690ab7	0	默认表格回显样式	2026-01-03 21:32:18.934178	2026-01-03 21:32:18.934178
+2	主要(primary)	primary		\N	f	sys_list_class	10	30	bf59ec99-cb51-4223-b6d0-3f05158110d8	0	主要表格回显样式	2026-01-03 21:32:18.934181	2026-01-03 21:32:18.934181
+3	成功(success)	success		\N	f	sys_list_class	10	31	63104263-1c40-4a42-be52-038296e66a7a	0	成功表格回显样式	2026-01-03 21:32:18.934184	2026-01-03 21:32:18.934184
+4	信息(info)	info		\N	f	sys_list_class	10	32	cdfb253e-293d-45c7-845d-6ec9b33a165d	0	信息表格回显样式	2026-01-03 21:32:18.934187	2026-01-03 21:32:18.934187
+5	警告(warning)	warning		\N	f	sys_list_class	10	33	fc9a9e08-bba1-41ce-9284-0237bcd07835	0	警告表格回显样式	2026-01-03 21:32:18.93419	2026-01-03 21:32:18.93419
+6	危险(danger)	danger		\N	f	sys_list_class	10	34	d9410025-6b47-4cc8-b162-738d7ccedd93	0	危险表格回显样式	2026-01-03 21:32:18.934193	2026-01-03 21:32:18.934193
 \.
 
 
@@ -3124,16 +3196,16 @@ COPY public.sys_dict_data (dict_sort, dict_label, dict_value, css_class, list_cl
 --
 
 COPY public.sys_dict_type (dict_name, dict_type, id, uuid, status, description, created_time, updated_time) FROM stdin;
-用户性别	sys_user_sex	1	3d901b06-1fd1-41b4-b39d-593f34db5879	0	用户性别列表	2025-12-31 18:45:46.308893	2025-12-31 18:45:46.308894
-系统是否	sys_yes_no	2	879c555a-2c33-4484-81ae-844a47e5429e	0	系统是否列表	2025-12-31 18:45:46.308898	2025-12-31 18:45:46.308899
-系统状态	sys_common_status	3	e9d59ad8-d2d5-44b1-b3bc-71809c5c6a7c	0	系统状态	2025-12-31 18:45:46.308902	2025-12-31 18:45:46.308902
-通知类型	sys_notice_type	4	b45dc463-e765-4309-a999-442769853774	0	通知类型列表	2025-12-31 18:45:46.308905	2025-12-31 18:45:46.308906
-操作类型	sys_oper_type	5	7c46e8b9-cef2-4475-9959-35bf5b95655e	0	操作类型列表	2025-12-31 18:45:46.308908	2025-12-31 18:45:46.308909
-任务存储器	sys_job_store	6	c03dfd08-c8e6-4d5b-898e-28ed2ba84fa9	0	任务分组列表	2025-12-31 18:45:46.308912	2025-12-31 18:45:46.308912
-任务执行器	sys_job_executor	7	4950520d-c9da-40c9-b1ed-32d0bbf1e65f	0	任务执行器列表	2025-12-31 18:45:46.308915	2025-12-31 18:45:46.308915
-任务函数	sys_job_function	8	22326315-30d8-443c-9060-42cad0419791	0	任务函数列表	2025-12-31 18:45:46.308918	2025-12-31 18:45:46.308918
-任务触发器	sys_job_trigger	9	e44e8ea6-8cf1-43cf-8cb7-bf86d24c555a	0	任务触发器列表	2025-12-31 18:45:46.308921	2025-12-31 18:45:46.308922
-表格回显样式	sys_list_class	10	d05de1f4-ddf3-447f-ba10-a6fcee2f7920	0	表格回显样式列表	2025-12-31 18:45:46.308925	2025-12-31 18:45:46.308925
+用户性别	sys_user_sex	1	cee3722a-32e8-4ae0-a5a4-bcd6721656a6	0	用户性别列表	2026-01-03 21:32:18.930619	2026-01-03 21:32:18.93062
+系统是否	sys_yes_no	2	f6f1923a-8662-434d-9494-6a9bdeae03da	0	系统是否列表	2026-01-03 21:32:18.930624	2026-01-03 21:32:18.930625
+系统状态	sys_common_status	3	21ad6e7f-69b9-451e-b03e-8e24c04bdd0b	0	系统状态	2026-01-03 21:32:18.930628	2026-01-03 21:32:18.930628
+通知类型	sys_notice_type	4	33c7a8d3-c61a-4607-971d-ae2b2e984068	0	通知类型列表	2026-01-03 21:32:18.930631	2026-01-03 21:32:18.930631
+操作类型	sys_oper_type	5	a690ee39-010c-421e-b884-6e7b5b309263	0	操作类型列表	2026-01-03 21:32:18.930634	2026-01-03 21:32:18.930634
+任务存储器	sys_job_store	6	1308fc02-bedd-4c86-876b-bcaa27c25256	0	任务分组列表	2026-01-03 21:32:18.930637	2026-01-03 21:32:18.930637
+任务执行器	sys_job_executor	7	963bd467-271b-4def-984c-a6c5c3b1e6c2	0	任务执行器列表	2026-01-03 21:32:18.93064	2026-01-03 21:32:18.930641
+任务函数	sys_job_function	8	77c1b8d9-4938-4959-b927-14f8df85a536	0	任务函数列表	2026-01-03 21:32:18.930644	2026-01-03 21:32:18.930644
+任务触发器	sys_job_trigger	9	63d803cc-bab8-466e-bd18-4297f15ebe68	0	任务触发器列表	2026-01-03 21:32:18.930647	2026-01-03 21:32:18.930647
+表格回显样式	sys_list_class	10	4604846e-a556-4d3a-9c2f-c72cfb29fdf0	0	表格回显样式列表	2026-01-03 21:32:18.93065	2026-01-03 21:32:18.93065
 \.
 
 
@@ -3150,143 +3222,143 @@ COPY public.sys_log (type, request_path, request_method, request_payload, reques
 --
 
 COPY public.sys_menu (name, type, "order", permission, icon, route_name, route_path, component_path, redirect, hidden, keep_alive, always_show, title, params, affix, parent_id, id, uuid, status, description, created_time, updated_time) FROM stdin;
-仪表盘	1	1		client	Dashboard	/dashboard	\N	/dashboard/workplace	f	t	t	仪表盘	null	f	\N	1	a36f0d7f-7a36-44cb-833e-6fd4df3cf84c	0	初始化数据	2025-12-31 18:45:46.283165	2025-12-31 18:45:46.283168
-系统管理	1	2	\N	system	System	/system	\N	/system/menu	f	t	f	系统管理	null	f	\N	2	83d0aa67-1732-4286-a9d4-64af6a775bd2	0	初始化数据	2025-12-31 18:45:46.283173	2025-12-31 18:45:46.283173
-应用管理	1	3	\N	el-icon-ShoppingBag	Application	/application	\N	/application/myapp	f	f	f	应用管理	null	f	\N	3	33572918-5fc0-4f08-acdd-0d0fe09be6f2	0	初始化数据	2025-12-31 18:45:46.283176	2025-12-31 18:45:46.283177
-监控管理	1	4	\N	monitor	Monitor	/monitor	\N	/monitor/online	f	f	f	监控管理	null	f	\N	4	f042e0e4-fb07-4541-bb3f-e8428c6034d4	0	初始化数据	2025-12-31 18:45:46.28318	2025-12-31 18:45:46.28318
-代码管理	1	5	\N	code	Generator	/generator	\N	/generator/gencode	f	f	f	代码管理	null	f	\N	5	bef1868e-e143-4b00-b627-27cf6f0ff3c6	0	代码管理	2025-12-31 18:45:46.283183	2025-12-31 18:45:46.283183
-接口管理	1	6	\N	document	Common	/common	\N	/common/docs	f	f	f	接口管理	null	f	\N	6	d2a90e3a-899b-4ced-bcf5-99dd60d2b0b0	0	初始化数据	2025-12-31 18:45:46.283186	2025-12-31 18:45:46.283187
-案例管理	1	7	\N	menu	Example	/example	\N	/example/demo	f	f	f	案例管理	null	f	\N	7	bd4ef0ac-403f-487d-b6be-be18575c474c	0	案例管理	2025-12-31 18:45:46.283189	2025-12-31 18:45:46.28319
-工作台	2	1	dashboard:workplace:query	el-icon-PieChart	Workplace	/dashboard/workplace	dashboard/workplace	\N	f	t	f	工作台	null	f	1	8	d43a5272-3dbe-4d52-b907-d8bad4815534	0	初始化数据	2025-12-31 18:45:46.287286	2025-12-31 18:45:46.287288
-菜单管理	2	1	module_system:menu:query	menu	Menu	/system/menu	module_system/menu/index	\N	f	t	f	菜单管理	null	f	2	9	45073436-fe47-4ef6-88d8-956cd9b8c6c1	0	初始化数据	2025-12-31 18:45:46.287293	2025-12-31 18:45:46.287293
-部门管理	2	2	module_system:dept:query	tree	Dept	/system/dept	module_system/dept/index	\N	f	t	f	部门管理	null	f	2	10	396a2469-1ff7-40f6-a325-07b4fefb400e	0	初始化数据	2025-12-31 18:45:46.287297	2025-12-31 18:45:46.287297
-岗位管理	2	3	module_system:position:query	el-icon-Coordinate	Position	/system/position	module_system/position/index	\N	f	t	f	岗位管理	null	f	2	11	c94f7747-3e03-429d-9c2b-3d37dc1157ad	0	初始化数据	2025-12-31 18:45:46.2873	2025-12-31 18:45:46.2873
-角色管理	2	4	module_system:role:query	role	Role	/system/role	module_system/role/index	\N	f	t	f	角色管理	null	f	2	12	5b4b1b62-8f52-4f45-98ad-3e33c6731441	0	初始化数据	2025-12-31 18:45:46.287303	2025-12-31 18:45:46.287304
-用户管理	2	5	module_system:user:query	el-icon-User	User	/system/user	module_system/user/index	\N	f	t	f	用户管理	null	f	2	13	5cd296d2-9c46-45e0-b3d2-096f00767aa4	0	初始化数据	2025-12-31 18:45:46.287307	2025-12-31 18:45:46.287307
-日志管理	2	6	module_system:log:query	el-icon-Aim	Log	/system/log	module_system/log/index	\N	f	t	f	日志管理	null	f	2	14	0455bebb-4647-4bf1-87e0-bb2eb5622074	0	初始化数据	2025-12-31 18:45:46.28731	2025-12-31 18:45:46.287311
-公告管理	2	7	module_system:notice:query	bell	Notice	/system/notice	module_system/notice/index	\N	f	t	f	公告管理	null	f	2	15	a7354c8b-fb3a-447a-ba86-5acd5591590d	0	初始化数据	2025-12-31 18:45:46.287314	2025-12-31 18:45:46.287314
-参数管理	2	8	module_system:param:query	setting	Params	/system/param	module_system/param/index	\N	f	t	f	参数管理	null	f	2	16	633e2d23-674c-481d-b50b-af789422e96f	0	初始化数据	2025-12-31 18:45:46.287317	2025-12-31 18:45:46.287317
-字典管理	2	9	module_system:dict_type:query	dict	Dict	/system/dict	module_system/dict/index	\N	f	t	f	字典管理	null	f	2	17	22f76f6a-7654-44c4-9840-c01ee942ee60	0	初始化数据	2025-12-31 18:45:46.287321	2025-12-31 18:45:46.287321
-我的应用	2	1	module_application:myapp:query	el-icon-ShoppingCartFull	MYAPP	/application/myapp	module_application/myapp/index	\N	f	t	f	我的应用	null	f	3	18	b6583f61-3c47-4ebb-8228-7035d44b76e0	0	初始化数据	2025-12-31 18:45:46.287324	2025-12-31 18:45:46.287324
-任务管理	2	2	module_application:job:query	el-icon-DataLine	Job	/application/job	module_application/job/index	\N	f	t	f	任务管理	null	f	3	19	adb50998-8351-4275-96f2-5d4fbf0ba433	0	初始化数据	2025-12-31 18:45:46.287328	2025-12-31 18:45:46.287328
-AI智能助手	2	3	module_application:ai:chat	el-icon-ToiletPaper	AI	/application/ai	module_application/ai/index	\N	f	t	f	AI智能助手	null	f	3	20	ff8c052b-4d80-42d0-99c7-1fc965d069df	0	AI智能助手	2025-12-31 18:45:46.287331	2025-12-31 18:45:46.287332
-流程管理	2	4	module_application:workflow:query	el-icon-ShoppingBag	Workflow	/application/workflow	module_application/workflow/index	\N	f	t	f	我的流程	null	f	3	21	a6275885-471a-4c0e-8dea-378115214836	0	我的流程	2025-12-31 18:45:46.287335	2025-12-31 18:45:46.287335
-在线用户	2	1	module_monitor:online:query	el-icon-Headset	MonitorOnline	/monitor/online	module_monitor/online/index	\N	f	f	f	在线用户	null	f	4	22	41a364b2-7057-4063-a291-2632ec6b761d	0	初始化数据	2025-12-31 18:45:46.287338	2025-12-31 18:45:46.287338
-服务器监控	2	2	module_monitor:server:query	el-icon-Odometer	MonitorServer	/monitor/server	module_monitor/server/index	\N	f	f	f	服务器监控	null	f	4	23	41988393-dc41-451f-a37e-19aede11c56c	0	初始化数据	2025-12-31 18:45:46.287343	2025-12-31 18:45:46.287344
-缓存监控	2	3	module_monitor:cache:query	el-icon-Stopwatch	MonitorCache	/monitor/cache	module_monitor/cache/index	\N	f	f	f	缓存监控	null	f	4	24	afcb43e4-8cf3-49c5-93f8-948d5ecc28db	0	初始化数据	2025-12-31 18:45:46.287347	2025-12-31 18:45:46.287347
-文件管理	2	4	module_monitor:resource:query	el-icon-Files	Resource	/monitor/resource	module_monitor/resource/index	\N	f	t	f	文件管理	null	f	4	25	1b628ba6-00c1-4569-a8ed-658792fc7330	0	初始化数据	2025-12-31 18:45:46.28735	2025-12-31 18:45:46.287351
-代码生成	2	1	module_generator:gencode:query	code	GenCode	/generator/gencode	module_generator/gencode/index	\N	f	t	f	代码生成	null	f	5	26	e3d30324-f8c9-4b83-9218-a1f5d7f01e2e	0	代码生成	2025-12-31 18:45:46.287354	2025-12-31 18:45:46.287354
-Swagger文档	4	1	module_common:docs:query	api	Docs	/common/docs	module_common/docs/index	\N	f	f	f	Swagger文档	null	f	6	27	ead8de32-6a5a-4920-8c79-f3097504a42e	0	初始化数据	2025-12-31 18:45:46.287357	2025-12-31 18:45:46.287357
-Redoc文档	4	2	module_common:redoc:query	el-icon-Document	Redoc	/common/redoc	module_common/redoc/index	\N	f	f	f	Redoc文档	null	f	6	28	979404b6-57c6-4ad4-a409-b092c6cefc4e	0	初始化数据	2025-12-31 18:45:46.28736	2025-12-31 18:45:46.28736
-示例管理	2	1	module_example:demo:query	menu	Demo	/example/demo	module_example/demo/index	\N	f	t	f	示例管理	null	f	7	29	a4353621-4f0f-4b31-a3db-c57839eb83f8	0	示例管理	2025-12-31 18:45:46.287363	2025-12-31 18:45:46.287364
-创建菜单	3	1	module_system:menu:create	\N	\N	\N	\N	\N	f	t	f	创建菜单	null	f	9	30	911d8f13-d07a-413b-b084-4646b22d9337	0	初始化数据	2025-12-31 18:45:46.29147	2025-12-31 18:45:46.291472
-修改菜单	3	2	module_system:menu:update	\N	\N	\N	\N	\N	f	t	f	修改菜单	null	f	9	31	32d2df46-62e5-42af-9b6c-9a5728aca04b	0	初始化数据	2025-12-31 18:45:46.291476	2025-12-31 18:45:46.291476
-删除菜单	3	3	module_system:menu:delete	\N	\N	\N	\N	\N	f	t	f	删除菜单	null	f	9	32	bcf0491b-5a1c-4800-8fad-4dd0c1c6d113	0	初始化数据	2025-12-31 18:45:46.291479	2025-12-31 18:45:46.29148
-批量修改菜单状态	3	4	module_system:menu:patch	\N	\N	\N	\N	\N	f	t	f	批量修改菜单状态	null	f	9	33	67567ae4-1b78-4070-a01b-e89925baa0be	0	初始化数据	2025-12-31 18:45:46.291483	2025-12-31 18:45:46.291483
-详情改菜	3	5	module_system:menu:detail	\N	\N	\N	\N	\N	f	t	f	详情改菜	null	f	9	34	2829cf85-eff9-4dbc-9724-1b4c035907fd	0	初始化数据	2025-12-31 18:45:46.291486	2025-12-31 18:45:46.291486
-查询菜单	3	6	module_system:menu:query	\N	\N	\N	\N	\N	f	t	f	查询菜单	null	f	9	35	038f5adb-a416-40a3-b8dc-10b07ca9a67e	0	初始化数据	2025-12-31 18:45:46.291489	2025-12-31 18:45:46.29149
-创建部门	3	1	module_system:dept:create	\N	\N	\N	\N	\N	f	t	f	创建部门	null	f	10	36	b33ffcb9-53e6-41a9-90f4-0ca9e3585b10	0	初始化数据	2025-12-31 18:45:46.291493	2025-12-31 18:45:46.291493
-修改部门	3	2	module_system:dept:update	\N	\N	\N	\N	\N	f	t	f	修改部门	null	f	10	37	6b81bcc0-20c0-4fad-8091-93386ce54ded	0	初始化数据	2025-12-31 18:45:46.291496	2025-12-31 18:45:46.291496
-删除部门	3	3	module_system:dept:delete	\N	\N	\N	\N	\N	f	t	f	删除部门	null	f	10	38	d27fd07c-d510-4438-98b9-87bab84e81e6	0	初始化数据	2025-12-31 18:45:46.291499	2025-12-31 18:45:46.2915
-批量修改部门状态	3	4	module_system:dept:patch	\N	\N	\N	\N	\N	f	t	f	批量修改部门状态	null	f	10	39	97a8c6ad-573c-48eb-8c04-248254c2d6b8	0	初始化数据	2025-12-31 18:45:46.291503	2025-12-31 18:45:46.291503
-详情部门	3	5	module_system:dept:detail	\N	\N	\N	\N	\N	f	t	f	详情部门	null	f	10	40	6d38d2e3-a54f-41a9-ad56-cac645a82455	0	初始化数据	2025-12-31 18:45:46.291506	2025-12-31 18:45:46.291506
-查询部门	3	6	module_system:dept:query	\N	\N	\N	\N	\N	f	t	f	查询部门	null	f	10	41	170a1213-599a-4d2d-bbfb-f837f6f8a2eb	0	初始化数据	2025-12-31 18:45:46.291509	2025-12-31 18:45:46.291509
-创建岗位	3	1	module_system:position:create	\N	\N	\N	\N	\N	f	t	f	创建岗位	null	f	11	42	e960bfae-b38a-44db-a62c-e064143490a0	0	初始化数据	2025-12-31 18:45:46.291512	2025-12-31 18:45:46.291513
-修改岗位	3	2	module_system:position:update	\N	\N	\N	\N	\N	f	t	f	修改岗位	null	f	11	43	b14f5dd1-a5f7-4db9-9fc9-fb02aecb3d88	0	初始化数据	2025-12-31 18:45:46.291515	2025-12-31 18:45:46.291516
-删除岗位	3	3	module_system:position:delete	\N	\N	\N	\N	\N	f	t	f	修改岗位	null	f	11	44	b755ef27-9d9c-4cf0-87fa-00cafa346bcc	0	初始化数据	2025-12-31 18:45:46.291519	2025-12-31 18:45:46.291519
-批量修改岗位状态	3	4	module_system:position:patch	\N	\N	\N	\N	\N	f	t	f	批量修改岗位状态	null	f	11	45	41dc6aa4-3de1-427d-9a0f-8b6fce54aa52	0	初始化数据	2025-12-31 18:45:46.291522	2025-12-31 18:45:46.291522
-岗位导出	3	5	module_system:position:export	\N	\N	\N	\N	\N	f	t	f	岗位导出	null	f	11	46	31341705-ad32-4f5e-9963-c4b90bacb800	0	初始化数据	2025-12-31 18:45:46.291525	2025-12-31 18:45:46.291525
-详情岗位	3	6	module_system:position:detail	\N	\N	\N	\N	\N	f	t	f	详情岗位	null	f	11	47	a0290d06-b8d2-408b-8f03-bb1548330a7b	0	初始化数据	2025-12-31 18:45:46.291528	2025-12-31 18:45:46.291529
-查询岗位	3	7	module_system:position:query	\N	\N	\N	\N	\N	f	t	f	查询岗位	null	f	11	48	604ca0f6-f61b-4863-8560-80f2be3e8f69	0	初始化数据	2025-12-31 18:45:46.291531	2025-12-31 18:45:46.291532
-创建角色	3	1	module_system:role:create	\N	\N	\N	\N	\N	f	t	f	创建角色	null	f	12	49	5e2baafa-0afc-42a3-9430-205d59482e81	0	初始化数据	2025-12-31 18:45:46.291535	2025-12-31 18:45:46.291535
-修改角色	3	2	module_system:role:update	\N	\N	\N	\N	\N	f	t	f	修改角色	null	f	12	50	47f343fe-8639-4ee7-a0b5-8c10b0402848	0	初始化数据	2025-12-31 18:45:46.291538	2025-12-31 18:45:46.291538
-删除角色	3	3	module_system:role:delete	\N	\N	\N	\N	\N	f	t	f	删除角色	null	f	12	51	435e771b-c643-4dbc-a53d-804db2d25aaa	0	初始化数据	2025-12-31 18:45:46.291541	2025-12-31 18:45:46.291541
-批量修改角色状态	3	4	module_system:role:patch	\N	\N	\N	\N	\N	f	t	f	批量修改角色状态	null	f	12	52	d3613339-6f79-4189-8a61-b64cb42e028e	0	初始化数据	2025-12-31 18:45:46.291544	2025-12-31 18:45:46.291544
-角色导出	3	5	module_system:role:export	\N	\N	\N	\N	\N	f	t	f	角色导出	null	f	12	53	5d0b9ff3-e936-41ee-b697-e34f26ea0297	0	初始化数据	2025-12-31 18:45:46.291547	2025-12-31 18:45:46.291548
-详情角色	3	6	module_system:role:detail	\N	\N	\N	\N	\N	f	t	f	详情角色	null	f	12	54	2a5da910-a814-4c96-b021-c25a2b576a3a	0	初始化数据	2025-12-31 18:45:46.29155	2025-12-31 18:45:46.291551
-查询角色	3	7	module_system:role:query	\N	\N	\N	\N	\N	f	t	f	查询角色	null	f	12	55	265a43ce-584f-4b75-aa8b-068e03d21764	0	初始化数据	2025-12-31 18:45:46.291553	2025-12-31 18:45:46.291554
-创建用户	3	1	module_system:user:create	\N	\N	\N	\N	\N	f	t	f	创建用户	null	f	13	56	cf6652a2-8af6-4590-9973-c92cffe7922e	0	初始化数据	2025-12-31 18:45:46.291557	2025-12-31 18:45:46.291557
-修改用户	3	2	module_system:user:update	\N	\N	\N	\N	\N	f	t	f	修改用户	null	f	13	57	c9da25cb-b1a9-41ef-836a-a597bf996b4d	0	初始化数据	2025-12-31 18:45:46.29156	2025-12-31 18:45:46.29156
-删除用户	3	3	module_system:user:delete	\N	\N	\N	\N	\N	f	t	f	删除用户	null	f	13	58	465911d3-fabc-43f4-b81f-1bf795ed8997	0	初始化数据	2025-12-31 18:45:46.291563	2025-12-31 18:45:46.291564
-批量修改用户状态	3	4	module_system:user:patch	\N	\N	\N	\N	\N	f	t	f	批量修改用户状态	null	f	13	59	6fe0a73e-3eb7-4526-b6dc-98f1acc30ed7	0	初始化数据	2025-12-31 18:45:46.291567	2025-12-31 18:45:46.291568
-导出用户	3	5	module_system:user:export	\N	\N	\N	\N	\N	f	t	f	导出用户	null	f	13	60	3c510e9e-3a8a-496c-a6c6-095b0758e86d	0	初始化数据	2025-12-31 18:45:46.291571	2025-12-31 18:45:46.291571
-导入用户	3	6	module_system:user:import	\N	\N	\N	\N	\N	f	t	f	导入用户	null	f	13	61	a484ab1c-dc38-431f-92e4-d56490785e6a	0	初始化数据	2025-12-31 18:45:46.291574	2025-12-31 18:45:46.291574
-下载用户导入模板	3	7	module_system:user:download	\N	\N	\N	\N	\N	f	t	f	下载用户导入模板	null	f	13	62	b0c8eaed-8b1b-4529-99f1-f84c4af21a9b	0	初始化数据	2025-12-31 18:45:46.291577	2025-12-31 18:45:46.291578
-详情用户	3	8	module_system:user:detail	\N	\N	\N	\N	\N	f	t	f	详情用户	null	f	13	63	51297a3b-82cf-4b98-916b-e73fb108cdcb	0	初始化数据	2025-12-31 18:45:46.29158	2025-12-31 18:45:46.291581
-查询用户	3	9	module_system:user:query	\N	\N	\N	\N	\N	f	t	f	查询用户	null	f	13	64	78319154-ceae-406d-93b0-58e8c15199ff	0	初始化数据	2025-12-31 18:45:46.291584	2025-12-31 18:45:46.291584
-日志删除	3	1	module_system:log:delete	\N	\N	\N	\N	\N	f	t	f	日志删除	null	f	14	65	226ff32a-10f1-45e1-af83-7512906ef8b2	0	初始化数据	2025-12-31 18:45:46.291587	2025-12-31 18:45:46.291587
-日志导出	3	2	module_system:log:export	\N	\N	\N	\N	\N	f	t	f	日志导出	null	f	14	66	4199edc1-9b50-45e3-93c7-52ff7b33e927	0	初始化数据	2025-12-31 18:45:46.29159	2025-12-31 18:45:46.29159
-日志详情	3	3	module_system:log:detail	\N	\N	\N	\N	\N	f	t	f	日志详情	null	f	14	67	531b91bb-d3f7-4963-99c4-1a2299b5b7e7	0	初始化数据	2025-12-31 18:45:46.291593	2025-12-31 18:45:46.291593
-查询日志	3	4	module_system:log:query	\N	\N	\N	\N	\N	f	t	f	查询日志	null	f	14	68	2715e59e-81c3-4f51-8296-5b0a955f90bd	0	初始化数据	2025-12-31 18:45:46.291596	2025-12-31 18:45:46.291597
-公告创建	3	1	module_system:notice:create	\N	\N	\N	\N	\N	f	t	f	公告创建	null	f	15	69	c40d0036-8725-44c2-9a59-e9c1d30404e3	0	初始化数据	2025-12-31 18:45:46.291599	2025-12-31 18:45:46.2916
-公告修改	3	2	module_system:notice:update	\N	\N	\N	\N	\N	f	t	f	修改用户	null	f	15	70	3a91e640-54d4-4d6f-b486-2b216e571c2d	0	初始化数据	2025-12-31 18:45:46.291603	2025-12-31 18:45:46.291603
-公告删除	3	3	module_system:notice:delete	\N	\N	\N	\N	\N	f	t	f	公告删除	null	f	15	71	0e4e9577-5f10-4e5d-b46f-bf4f16e77f01	0	初始化数据	2025-12-31 18:45:46.291606	2025-12-31 18:45:46.291606
-公告导出	3	4	module_system:notice:export	\N	\N	\N	\N	\N	f	t	f	公告导出	null	f	15	72	85f7377b-6f3d-4645-9fe6-78a3196b0ef1	0	初始化数据	2025-12-31 18:45:46.291609	2025-12-31 18:45:46.291609
-公告批量修改状态	3	5	module_system:notice:patch	\N	\N	\N	\N	\N	f	t	f	公告批量修改状态	null	f	15	73	49be698f-47e8-4f27-9bb6-9cd8bae3b9ae	0	初始化数据	2025-12-31 18:45:46.291612	2025-12-31 18:45:46.291613
-公告详情	3	6	module_system:notice:detail	\N	\N	\N	\N	\N	f	t	f	公告详情	null	f	15	74	be54d14a-0c41-497a-acb8-40eb0c976c07	0	初始化数据	2025-12-31 18:45:46.291615	2025-12-31 18:45:46.291616
-查询公告	3	5	module_system:notice:query	\N	\N	\N	\N	\N	f	t	f	查询公告	null	f	15	75	e496fd06-cf11-4f5b-aaa1-0113af736386	0	初始化数据	2025-12-31 18:45:46.291619	2025-12-31 18:45:46.291619
-创建参数	3	1	module_system:param:create	\N	\N	\N	\N	\N	f	t	f	创建参数	null	f	16	76	345fc1db-e0f3-4f78-9edc-7d7be705c5bb	0	初始化数据	2025-12-31 18:45:46.291622	2025-12-31 18:45:46.291622
-修改参数	3	2	module_system:param:update	\N	\N	\N	\N	\N	f	t	f	修改参数	null	f	16	77	fb63482b-1f39-45db-84e8-183580a84164	0	初始化数据	2025-12-31 18:45:46.291625	2025-12-31 18:45:46.291625
-删除参数	3	3	module_system:param:delete	\N	\N	\N	\N	\N	f	t	f	删除参数	null	f	16	78	2b74aad8-0b99-4a3e-9601-578a9bb66df0	0	初始化数据	2025-12-31 18:45:46.291628	2025-12-31 18:45:46.291628
-导出参数	3	4	module_system:param:export	\N	\N	\N	\N	\N	f	t	f	导出参数	null	f	16	79	5a37e623-4a65-49e8-bc0a-b5c73d789e5b	0	初始化数据	2025-12-31 18:45:46.291635	2025-12-31 18:45:46.291635
-参数上传	3	5	module_system:param:upload	\N	\N	\N	\N	\N	f	t	f	参数上传	null	f	16	80	2b6680c1-0f1c-4e33-b8bc-cd456c60cd20	0	初始化数据	2025-12-31 18:45:46.291638	2025-12-31 18:45:46.291639
-参数详情	3	6	module_system:param:detail	\N	\N	\N	\N	\N	f	t	f	参数详情	null	f	16	81	911afd36-18e0-4292-9b7d-1dfa4d289a8b	0	初始化数据	2025-12-31 18:45:46.291642	2025-12-31 18:45:46.291643
-查询参数	3	7	module_system:param:query	\N	\N	\N	\N	\N	f	t	f	查询参数	null	f	16	82	cd2d1652-f6bd-44b9-a013-9f11852b4d29	0	初始化数据	2025-12-31 18:45:46.291646	2025-12-31 18:45:46.291646
-创建字典类型	3	1	module_system:dict_type:create	\N	\N	\N	\N	\N	f	t	f	创建字典类型	null	f	17	83	5b7ad918-6469-4e09-8f0f-f04ed00bc9d5	0	初始化数据	2025-12-31 18:45:46.291649	2025-12-31 18:45:46.291649
-修改字典类型	3	2	module_system:dict_type:update	\N	\N	\N	\N	\N	f	t	f	修改字典类型	null	f	17	84	0b7787d6-3692-4e23-a89d-5dfd7dc27bd6	0	初始化数据	2025-12-31 18:45:46.291652	2025-12-31 18:45:46.291653
-删除字典类型	3	3	module_system:dict_type:delete	\N	\N	\N	\N	\N	f	t	f	删除字典类型	null	f	17	85	b1602875-1ec3-44fc-8ce0-64caae17ad98	0	初始化数据	2025-12-31 18:45:46.291656	2025-12-31 18:45:46.291656
-导出字典类型	3	4	module_system:dict_type:export	\N	\N	\N	\N	\N	f	t	f	导出字典类型	null	f	17	86	1d3c1f8a-5cb0-4ed1-876b-f019f7f8a881	0	初始化数据	2025-12-31 18:45:46.291659	2025-12-31 18:45:46.291659
-批量修改字典状态	3	5	module_system:dict_type:patch	\N	\N	\N	\N	\N	f	t	f	导出字典类型	null	f	17	87	56ff47c8-d46e-459b-a398-c1d7aae9ce12	0	初始化数据	2025-12-31 18:45:46.291662	2025-12-31 18:45:46.291662
-字典数据查询	3	6	module_system:dict_data:query	\N	\N	\N	\N	\N	f	t	f	字典数据查询	null	f	17	88	9542655e-acc9-4386-bd86-63f84421ec47	0	初始化数据	2025-12-31 18:45:46.291665	2025-12-31 18:45:46.291665
-创建字典数据	3	7	module_system:dict_data:create	\N	\N	\N	\N	\N	f	t	f	创建字典数据	null	f	17	89	6bb10423-011f-4420-b638-233219be7594	0	初始化数据	2025-12-31 18:45:46.291668	2025-12-31 18:45:46.291669
-修改字典数据	3	8	module_system:dict_data:update	\N	\N	\N	\N	\N	f	t	f	修改字典数据	null	f	17	90	aaa521de-b473-4460-9fe2-461d4fd418b3	0	初始化数据	2025-12-31 18:45:46.291671	2025-12-31 18:45:46.291672
-删除字典数据	3	9	module_system:dict_data:delete	\N	\N	\N	\N	\N	f	t	f	删除字典数据	null	f	17	91	a4cc7645-9371-4ecd-bcb4-a0704ffc8647	0	初始化数据	2025-12-31 18:45:46.291674	2025-12-31 18:45:46.291675
-导出字典数据	3	10	module_system:dict_data:export	\N	\N	\N	\N	\N	f	t	f	导出字典数据	null	f	17	92	d57bb378-0092-434b-816e-08a8da4d83a3	0	初始化数据	2025-12-31 18:45:46.291678	2025-12-31 18:45:46.291678
-批量修改字典数据状态	3	11	module_system:dict_data:patch	\N	\N	\N	\N	\N	f	t	f	批量修改字典数据状态	null	f	17	93	7553f26f-03f8-449a-a57a-67ce80c55790	0	初始化数据	2025-12-31 18:45:46.291681	2025-12-31 18:45:46.291681
-详情字典类型	3	12	module_system:dict_type:detail	\N	\N	\N	\N	\N	f	t	f	详情字典类型	null	f	17	94	50da7a6d-fc3c-432f-916b-17a443f8785e	0	初始化数据	2025-12-31 18:45:46.291684	2025-12-31 18:45:46.291684
-查询字典类型	3	13	module_system:dict_type:query	\N	\N	\N	\N	\N	f	t	f	查询字典类型	null	f	17	95	f5e1a01b-7ac7-490f-a132-f03cf8507489	0	初始化数据	2025-12-31 18:45:46.291687	2025-12-31 18:45:46.291688
-详情字典数据	3	14	module_system:dict_data:detail	\N	\N	\N	\N	\N	f	t	f	详情字典数据	null	f	17	96	da285556-7705-455a-8877-5163f6760ea2	0	初始化数据	2025-12-31 18:45:46.29169	2025-12-31 18:45:46.291691
-创建应用	3	1	module_application:myapp:create	\N	\N	\N	\N	\N	f	t	f	创建应用	null	f	18	97	2e31673e-6e8a-43b6-adf4-43d711ff4108	0	初始化数据	2025-12-31 18:45:46.291694	2025-12-31 18:45:46.291694
-修改应用	3	2	module_application:myapp:update	\N	\N	\N	\N	\N	f	t	f	修改应用	null	f	18	98	01e29861-bf04-4a2c-aeaa-2955bedd9d4b	0	初始化数据	2025-12-31 18:45:46.291697	2025-12-31 18:45:46.291697
-删除应用	3	3	module_application:myapp:delete	\N	\N	\N	\N	\N	f	t	f	删除应用	null	f	18	99	15f3d8a9-ca07-4b30-b28b-bfb06ad2ab3f	0	初始化数据	2025-12-31 18:45:46.2917	2025-12-31 18:45:46.291701
-批量修改应用状态	3	4	module_application:myapp:patch	\N	\N	\N	\N	\N	f	t	f	批量修改应用状态	null	f	18	100	1fa8f4a7-3b76-428f-84fc-a4029b036a6d	0	初始化数据	2025-12-31 18:45:46.291703	2025-12-31 18:45:46.291704
-详情应用	3	5	module_application:myapp:detail	\N	\N	\N	\N	\N	f	t	f	详情应用	null	f	18	101	e7930091-8d95-4444-8d89-c58cc3290010	0	初始化数据	2025-12-31 18:45:46.291707	2025-12-31 18:45:46.291707
-查询应用	3	6	module_application:myapp:query	\N	\N	\N	\N	\N	f	t	f	查询应用	null	f	18	102	9086b321-326f-446b-aaae-b6b8a85cc9bb	0	初始化数据	2025-12-31 18:45:46.29171	2025-12-31 18:45:46.29171
-创建任务	3	1	module_application:job:create	\N	\N	\N	\N	\N	f	t	f	创建任务	null	f	19	103	1a0a7f43-8adc-4783-8bb9-18c1cfa1b26a	0	初始化数据	2025-12-31 18:45:46.291713	2025-12-31 18:45:46.291713
-修改和操作任务	3	2	module_application:job:update	\N	\N	\N	\N	\N	f	t	f	修改和操作任务	null	f	19	104	a2ba0bb6-e634-42c9-98fc-be662c9422cd	0	初始化数据	2025-12-31 18:45:46.291716	2025-12-31 18:45:46.291717
-删除和清除任务	3	3	module_application:job:delete	\N	\N	\N	\N	\N	f	t	f	删除和清除任务	null	f	19	105	e7e916cf-65af-4792-9bea-82d519da353c	0	初始化数据	2025-12-31 18:45:46.291719	2025-12-31 18:45:46.29172
-导出定时任务	3	4	module_application:job:export	\N	\N	\N	\N	\N	f	t	f	导出定时任务	null	f	19	106	ff637557-cc74-4686-9c21-ae3d344091e4	0	初始化数据	2025-12-31 18:45:46.291723	2025-12-31 18:45:46.291723
-详情定时任务	3	5	module_application:job:detail	\N	\N	\N	\N	\N	f	t	f	详情任务	null	f	19	107	bf8bbca4-94b4-4544-8610-1fe669605de4	0	初始化数据	2025-12-31 18:45:46.291726	2025-12-31 18:45:46.291726
-查询定时任务	3	6	module_application:job:query	\N	\N	\N	\N	\N	f	t	f	查询定时任务	null	f	19	108	08d860a6-2904-4f49-9455-f5e226833802	0	初始化数据	2025-12-31 18:45:46.291729	2025-12-31 18:45:46.291729
-智能对话	3	1	module_application:ai:chat	\N	\N	\N	\N	\N	f	t	f	智能对话	null	f	20	109	2b43e286-02cb-41d5-a84a-bba3785cc82c	0	智能对话	2025-12-31 18:45:46.291732	2025-12-31 18:45:46.291733
-在线用户强制下线	3	1	module_monitor:online:delete	\N	\N	\N	\N	\N	f	f	f	在线用户强制下线	null	f	22	110	5bde9f0c-45db-4f84-b419-1100ac28b768	0	初始化数据	2025-12-31 18:45:46.291735	2025-12-31 18:45:46.291736
-清除缓存	3	1	module_monitor:cache:delete	\N	\N	\N	\N	\N	f	f	f	清除缓存	null	f	24	111	208e4ebc-d99e-47c8-8f60-5c7c6199ed08	0	初始化数据	2025-12-31 18:45:46.291739	2025-12-31 18:45:46.291739
-文件上传	3	1	module_monitor:resource:upload	\N	\N	\N	\N	\N	f	t	f	文件上传	null	f	25	112	2197b2f5-48e3-44d4-acea-3b85b3dde15a	0	初始化数据	2025-12-31 18:45:46.291742	2025-12-31 18:45:46.291742
-文件下载	3	2	module_monitor:resource:download	\N	\N	\N	\N	\N	f	t	f	文件下载	null	f	25	113	fa9f0627-7815-409d-88ad-aabe9d5e4252	0	初始化数据	2025-12-31 18:45:46.291747	2025-12-31 18:45:46.291747
-文件删除	3	3	module_monitor:resource:delete	\N	\N	\N	\N	\N	f	t	f	文件删除	null	f	25	114	6280f8fb-63cb-4e96-9579-3ff0dfa8a1ba	0	初始化数据	2025-12-31 18:45:46.29175	2025-12-31 18:45:46.29175
-文件移动	3	4	module_monitor:resource:move	\N	\N	\N	\N	\N	f	t	f	文件移动	null	f	25	115	4c1253a9-80cf-443e-a4aa-12143c2e48b1	0	初始化数据	2025-12-31 18:45:46.291753	2025-12-31 18:45:46.291754
-文件复制	3	5	module_monitor:resource:copy	\N	\N	\N	\N	\N	f	t	f	文件复制	null	f	25	116	21c741da-55fa-492b-9d95-154d29dff646	0	初始化数据	2025-12-31 18:45:46.291756	2025-12-31 18:45:46.291757
-文件重命名	3	6	module_monitor:resource:rename	\N	\N	\N	\N	\N	f	t	f	文件重命名	null	f	25	117	1b998f72-37f8-47b7-8c13-85667831d3ff	0	初始化数据	2025-12-31 18:45:46.29176	2025-12-31 18:45:46.29176
-创建目录	3	7	module_monitor:resource:create_dir	\N	\N	\N	\N	\N	f	t	f	创建目录	null	f	25	118	56dba606-32ab-49e7-8e53-2604888f2163	0	初始化数据	2025-12-31 18:45:46.291763	2025-12-31 18:45:46.291763
-导出文件列表	3	9	module_monitor:resource:export	\N	\N	\N	\N	\N	f	t	f	导出文件列表	null	f	25	119	f9d8448f-e759-4e0b-b5cf-57ad3849e23d	0	初始化数据	2025-12-31 18:45:46.291766	2025-12-31 18:45:46.291766
-查询代码生成业务表列表	3	1	module_generator:gencode:query	\N	\N	\N	\N	\N	f	t	f	查询代码生成业务表列表	null	f	26	120	1f388dd8-d1a6-4388-bff9-792e56602075	0	查询代码生成业务表列表	2025-12-31 18:45:46.291769	2025-12-31 18:45:46.291769
-创建表结构	3	2	module_generator:gencode:create	\N	\N	\N	\N	\N	f	t	f	创建表结构	null	f	26	121	e7c18daf-aa5f-467c-96f3-7abe889ea97b	0	创建表结构	2025-12-31 18:45:46.291772	2025-12-31 18:45:46.291773
-编辑业务表信息	3	3	module_generator:gencode:update	\N	\N	\N	\N	\N	f	t	f	编辑业务表信息	null	f	26	122	981ccc25-7f16-4064-a3cc-e4b6f83432d0	0	编辑业务表信息	2025-12-31 18:45:46.291775	2025-12-31 18:45:46.291776
-删除业务表信息	3	4	module_generator:gencode:delete	\N	\N	\N	\N	\N	f	t	f	删除业务表信息	null	f	26	123	ca01b726-b1f9-481e-be48-5a5935e2c775	0	删除业务表信息	2025-12-31 18:45:46.291779	2025-12-31 18:45:46.291779
-导入表结构	3	5	module_generator:gencode:import	\N	\N	\N	\N	\N	f	t	f	导入表结构	null	f	26	124	7f871746-6351-46e5-8f58-8197f78edb7b	0	导入表结构	2025-12-31 18:45:46.291782	2025-12-31 18:45:46.291782
-批量生成代码	3	6	module_generator:gencode:operate	\N	\N	\N	\N	\N	f	t	f	批量生成代码	null	f	26	125	fcd4048a-ab09-4103-9878-e902d61c7d60	0	批量生成代码	2025-12-31 18:45:46.291785	2025-12-31 18:45:46.291786
-生成代码到指定路径	3	7	module_generator:gencode:code	\N	\N	\N	\N	\N	f	t	f	生成代码到指定路径	null	f	26	126	02ccb0fd-0749-439c-9bcb-9143033379ee	0	生成代码到指定路径	2025-12-31 18:45:46.291789	2025-12-31 18:45:46.291789
-查询数据库表列表	3	8	module_generator:dblist:query	\N	\N	\N	\N	\N	f	t	f	查询数据库表列表	null	f	26	127	a68d9a0c-bab8-4f3a-80f0-8a6fe8e410f8	0	查询数据库表列表	2025-12-31 18:45:46.291792	2025-12-31 18:45:46.291792
-同步数据库	3	9	module_generator:db:sync	\N	\N	\N	\N	\N	f	t	f	同步数据库	null	f	26	128	057ad1cc-b852-4c61-bf08-0e6c18c6ac94	0	同步数据库	2025-12-31 18:45:46.291795	2025-12-31 18:45:46.291795
-创建示例	3	1	module_example:demo:create	\N	\N	\N	\N	\N	f	t	f	创建示例	null	f	29	129	17290b3c-ba33-4c10-8809-b98cff7102bf	0	初始化数据	2025-12-31 18:45:46.291798	2025-12-31 18:45:46.291799
-更新示例	3	2	module_example:demo:update	\N	\N	\N	\N	\N	f	t	f	更新示例	null	f	29	130	16d7cd64-d1d7-4c87-a56c-35b061979ae0	0	初始化数据	2025-12-31 18:45:46.291801	2025-12-31 18:45:46.291802
-删除示例	3	3	module_example:demo:delete	\N	\N	\N	\N	\N	f	t	f	删除示例	null	f	29	131	17412f3a-8d76-4d0b-a7de-61198aed64ea	0	初始化数据	2025-12-31 18:45:46.291805	2025-12-31 18:45:46.291805
-批量修改示例状态	3	4	module_example:demo:patch	\N	\N	\N	\N	\N	f	t	f	批量修改示例状态	null	f	29	132	ac521c78-0e19-4655-88f7-e5ffa571fa55	0	初始化数据	2025-12-31 18:45:46.291808	2025-12-31 18:45:46.291808
-导出示例	3	5	module_example:demo:export	\N	\N	\N	\N	\N	f	t	f	导出示例	null	f	29	133	5d135d69-0cb5-448a-a900-ec88f5e47741	0	初始化数据	2025-12-31 18:45:46.291811	2025-12-31 18:45:46.291812
-导入示例	3	6	module_example:demo:import	\N	\N	\N	\N	\N	f	t	f	导入示例	null	f	29	134	0d5ab2a6-1e60-46c6-8569-55d742228adf	0	初始化数据	2025-12-31 18:45:46.291814	2025-12-31 18:45:46.291815
-下载导入示例模版	3	7	module_example:demo:download	\N	\N	\N	\N	\N	f	t	f	下载导入示例模版	null	f	29	135	f14848b1-4d64-4151-9fbe-6fc047486c73	0	初始化数据	2025-12-31 18:45:46.291818	2025-12-31 18:45:46.291818
-详情示例	3	8	module_example:demo:detail	\N	\N	\N	\N	\N	f	t	f	详情示例	null	f	29	136	21b0eff0-f5a5-475b-839b-7ae86701b269	0	初始化数据	2025-12-31 18:45:46.291821	2025-12-31 18:45:46.291821
-查询示例	3	9	module_example:demo:query	\N	\N	\N	\N	\N	f	t	f	查询示例	null	f	29	137	181a245c-d621-48d0-951f-cb5f995161f8	0	初始化数据	2025-12-31 18:45:46.291824	2025-12-31 18:45:46.291825
+仪表盘	1	1		client	Dashboard	/dashboard	\N	/dashboard/workplace	f	t	t	仪表盘	null	f	\N	1	cb8697f1-d99f-486f-a35d-ca588d00ecee	0	初始化数据	2026-01-03 21:32:18.905383	2026-01-03 21:32:18.905387
+系统管理	1	2	\N	system	System	/system	\N	/system/menu	f	t	f	系统管理	null	f	\N	2	8686a005-e6f2-4f27-a592-dd1e33c1c5e7	0	初始化数据	2026-01-03 21:32:18.905392	2026-01-03 21:32:18.905392
+应用管理	1	3	\N	el-icon-ShoppingBag	Application	/application	\N	/application/myapp	f	t	f	应用管理	null	f	\N	3	aed230c6-6a2f-47a2-ae17-19a36111987f	0	初始化数据	2026-01-03 21:32:18.905395	2026-01-03 21:32:18.905395
+监控管理	1	4	\N	monitor	Monitor	/monitor	\N	/monitor/online	f	t	f	监控管理	null	f	\N	4	f94f6492-288a-4df3-b6a2-37eaec7f7b6f	0	初始化数据	2026-01-03 21:32:18.905398	2026-01-03 21:32:18.905399
+代码管理	1	5	\N	code	Generator	/generator	\N	/generator/gencode	f	t	f	代码管理	null	f	\N	5	9a68972f-7c40-4104-97b1-372213d500c1	0	代码管理	2026-01-03 21:32:18.905401	2026-01-03 21:32:18.905402
+接口管理	1	6	\N	document	Common	/common	\N	/common/docs	f	t	f	接口管理	null	f	\N	6	75341f65-6da9-4bd6-a9c1-eab807edd5fb	0	初始化数据	2026-01-03 21:32:18.905405	2026-01-03 21:32:18.905405
+案例管理	1	7	\N	menu	Example	/example	\N	/example/demo	f	t	f	案例管理	null	f	\N	7	5145f454-4bd1-48c9-a780-c809cfcf669e	0	案例管理	2026-01-03 21:32:18.905408	2026-01-03 21:32:18.905408
+工作台	2	1	dashboard:workplace:query	el-icon-PieChart	Workplace	/dashboard/workplace	dashboard/workplace	\N	f	t	f	工作台	null	f	1	8	15605dd7-2ab4-4ad4-b2e6-3a32976d4c1a	0	初始化数据	2026-01-03 21:32:18.907989	2026-01-03 21:32:18.907991
+菜单管理	2	1	module_system:menu:query	menu	Menu	/system/menu	module_system/menu/index	\N	f	t	f	菜单管理	null	f	2	9	7ba1cbc7-4822-472a-a239-647ef5807fb8	0	初始化数据	2026-01-03 21:32:18.907995	2026-01-03 21:32:18.907996
+部门管理	2	2	module_system:dept:query	tree	Dept	/system/dept	module_system/dept/index	\N	f	t	f	部门管理	null	f	2	10	4d852241-ce79-45b2-aac2-cb683b4fe502	0	初始化数据	2026-01-03 21:32:18.907999	2026-01-03 21:32:18.907999
+岗位管理	2	3	module_system:position:query	el-icon-Coordinate	Position	/system/position	module_system/position/index	\N	f	t	f	岗位管理	null	f	2	11	0515619f-cc9c-4a94-a11b-4c56c14a7ad7	0	初始化数据	2026-01-03 21:32:18.908002	2026-01-03 21:32:18.908003
+角色管理	2	4	module_system:role:query	role	Role	/system/role	module_system/role/index	\N	f	t	f	角色管理	null	f	2	12	680024f6-08da-4141-a993-452a0bbbc008	0	初始化数据	2026-01-03 21:32:18.908005	2026-01-03 21:32:18.908006
+用户管理	2	5	module_system:user:query	el-icon-User	User	/system/user	module_system/user/index	\N	f	t	f	用户管理	null	f	2	13	9900d01f-556f-4580-a09a-aecd51a99c86	0	初始化数据	2026-01-03 21:32:18.908009	2026-01-03 21:32:18.908009
+日志管理	2	6	module_system:log:query	el-icon-Aim	Log	/system/log	module_system/log/index	\N	f	t	f	日志管理	null	f	2	14	4cf02289-e5d6-4fd4-8a35-2415dec384fa	0	初始化数据	2026-01-03 21:32:18.908012	2026-01-03 21:32:18.908012
+公告管理	2	7	module_system:notice:query	bell	Notice	/system/notice	module_system/notice/index	\N	f	t	f	公告管理	null	f	2	15	c4cac9c7-d750-4b27-9731-039149f2897d	0	初始化数据	2026-01-03 21:32:18.908015	2026-01-03 21:32:18.908015
+参数管理	2	8	module_system:param:query	setting	Params	/system/param	module_system/param/index	\N	f	t	f	参数管理	null	f	2	16	2385358e-b01c-4a48-93e0-d3b85f18438b	0	初始化数据	2026-01-03 21:32:18.908018	2026-01-03 21:32:18.908018
+字典管理	2	9	module_system:dict_type:query	dict	Dict	/system/dict	module_system/dict/index	\N	f	t	f	字典管理	null	f	2	17	b9da7600-bbc3-48b9-86bd-c87d99e782e8	0	初始化数据	2026-01-03 21:32:18.908021	2026-01-03 21:32:18.908021
+我的应用	2	1	module_application:myapp:query	el-icon-ShoppingCartFull	MYAPP	/application/myapp	module_application/myapp/index	\N	f	t	f	我的应用	null	f	3	18	4b89ed0b-c1c2-4a08-95a9-c0aff320fbbf	0	初始化数据	2026-01-03 21:32:18.908024	2026-01-03 21:32:18.908024
+任务管理	2	2	module_application:job:query	el-icon-DataLine	Job	/application/job	module_application/job/index	\N	f	t	f	任务管理	null	f	3	19	586828bb-10f6-4eff-82b9-1ac747bafef2	0	初始化数据	2026-01-03 21:32:18.908027	2026-01-03 21:32:18.908027
+AI智能助手	2	3	module_application:ai:chat	el-icon-ToiletPaper	AI	/application/ai	module_application/ai/index	\N	f	t	f	AI智能助手	null	f	3	20	be03f057-ed7d-4c9e-9cb3-a17eabc58920	0	AI智能助手	2026-01-03 21:32:18.90803	2026-01-03 21:32:18.90803
+流程管理	2	4	module_application:workflow:query	el-icon-ShoppingBag	Workflow	/application/workflow	module_application/workflow/index	\N	f	t	f	我的流程	null	f	3	21	b3e1ec0a-4411-4909-9b91-b11fa7cb56ae	0	我的流程	2026-01-03 21:32:18.908033	2026-01-03 21:32:18.908034
+在线用户	2	1	module_monitor:online:query	el-icon-Headset	MonitorOnline	/monitor/online	module_monitor/online/index	\N	f	t	f	在线用户	null	f	4	22	bd3696da-f6cd-4d37-b2d3-458c0653c86b	0	初始化数据	2026-01-03 21:32:18.908036	2026-01-03 21:32:18.908037
+服务器监控	2	2	module_monitor:server:query	el-icon-Odometer	MonitorServer	/monitor/server	module_monitor/server/index	\N	f	t	f	服务器监控	null	f	4	23	da8f2dd6-a3c8-4d0e-b4b8-995baafa47a4	0	初始化数据	2026-01-03 21:32:18.908039	2026-01-03 21:32:18.90804
+缓存监控	2	3	module_monitor:cache:query	el-icon-Stopwatch	MonitorCache	/monitor/cache	module_monitor/cache/index	\N	f	t	f	缓存监控	null	f	4	24	4a738c1e-2d6a-4c43-abf7-0ead777544df	0	初始化数据	2026-01-03 21:32:18.908042	2026-01-03 21:32:18.908043
+文件管理	2	4	module_monitor:resource:query	el-icon-Files	Resource	/monitor/resource	module_monitor/resource/index	\N	f	t	f	文件管理	null	f	4	25	b57d3b59-82a1-4430-8b8a-7545c296f86a	0	初始化数据	2026-01-03 21:32:18.908045	2026-01-03 21:32:18.908046
+代码生成	2	1	module_generator:gencode:query	code	GenCode	/generator/gencode	module_generator/gencode/index	\N	f	t	f	代码生成	null	f	5	26	d7bba83a-d934-4692-976c-56a43e69665a	0	代码生成	2026-01-03 21:32:18.908048	2026-01-03 21:32:18.908049
+Swagger文档	4	1	module_common:docs:query	api	Docs	/common/docs	module_common/docs/index	\N	f	t	f	Swagger文档	null	f	6	27	f8d27069-6348-474d-9338-f063cdeab56e	0	初始化数据	2026-01-03 21:32:18.908052	2026-01-03 21:32:18.908052
+Redoc文档	4	2	module_common:redoc:query	el-icon-Document	Redoc	/common/redoc	module_common/redoc/index	\N	f	t	f	Redoc文档	null	f	6	28	572fd0dc-26c6-480a-a142-223da6de2697	0	初始化数据	2026-01-03 21:32:18.908054	2026-01-03 21:32:18.908055
+示例管理	2	1	module_example:demo:query	menu	Demo	/example/demo	module_example/demo/index	\N	f	t	f	示例管理	null	f	7	29	8bdeda95-8219-48ef-abe4-cba88a251e88	0	示例管理	2026-01-03 21:32:18.908057	2026-01-03 21:32:18.908058
+创建菜单	3	1	module_system:menu:create	\N	\N	\N	\N	\N	f	t	f	创建菜单	null	f	9	30	d7e7d1da-e452-422f-a05b-3220b5534abc	0	初始化数据	2026-01-03 21:32:18.911445	2026-01-03 21:32:18.911447
+修改菜单	3	2	module_system:menu:update	\N	\N	\N	\N	\N	f	t	f	修改菜单	null	f	9	31	82b62e27-b2d0-44b1-9319-9f8b2160be2a	0	初始化数据	2026-01-03 21:32:18.91145	2026-01-03 21:32:18.91145
+删除菜单	3	3	module_system:menu:delete	\N	\N	\N	\N	\N	f	t	f	删除菜单	null	f	9	32	d796f75f-ea78-41fa-a6f6-d8b3cc9698db	0	初始化数据	2026-01-03 21:32:18.911453	2026-01-03 21:32:18.911453
+批量修改菜单状态	3	4	module_system:menu:patch	\N	\N	\N	\N	\N	f	t	f	批量修改菜单状态	null	f	9	33	5e130db5-b6f1-40ae-bba6-f8f08bc433be	0	初始化数据	2026-01-03 21:32:18.911456	2026-01-03 21:32:18.911456
+详情改菜	3	5	module_system:menu:detail	\N	\N	\N	\N	\N	f	t	f	详情改菜	null	f	9	34	5f31aeb8-beda-46fc-8715-5bc807787c38	0	初始化数据	2026-01-03 21:32:18.911459	2026-01-03 21:32:18.911459
+查询菜单	3	6	module_system:menu:query	\N	\N	\N	\N	\N	f	t	f	查询菜单	null	f	9	35	a0f600b3-b948-4197-a162-b0f0019e0029	0	初始化数据	2026-01-03 21:32:18.911462	2026-01-03 21:32:18.911462
+创建部门	3	1	module_system:dept:create	\N	\N	\N	\N	\N	f	t	f	创建部门	null	f	10	36	d699fba9-3c38-4f6d-aaad-e0fe1c6e4ef9	0	初始化数据	2026-01-03 21:32:18.911465	2026-01-03 21:32:18.911465
+修改部门	3	2	module_system:dept:update	\N	\N	\N	\N	\N	f	t	f	修改部门	null	f	10	37	7fbc26de-231f-47e5-a776-549bc1d6e8da	0	初始化数据	2026-01-03 21:32:18.911468	2026-01-03 21:32:18.911468
+删除部门	3	3	module_system:dept:delete	\N	\N	\N	\N	\N	f	t	f	删除部门	null	f	10	38	e2adf21d-20b9-4a66-b3e9-22dd97067f47	0	初始化数据	2026-01-03 21:32:18.911471	2026-01-03 21:32:18.911471
+批量修改部门状态	3	4	module_system:dept:patch	\N	\N	\N	\N	\N	f	t	f	批量修改部门状态	null	f	10	39	174fc5cc-f3d0-48e5-a2f2-4d5d3768601f	0	初始化数据	2026-01-03 21:32:18.911474	2026-01-03 21:32:18.911474
+详情部门	3	5	module_system:dept:detail	\N	\N	\N	\N	\N	f	t	f	详情部门	null	f	10	40	0cd163e8-e13d-4e54-af81-4d3b51fb8421	0	初始化数据	2026-01-03 21:32:18.911477	2026-01-03 21:32:18.911477
+查询部门	3	6	module_system:dept:query	\N	\N	\N	\N	\N	f	t	f	查询部门	null	f	10	41	39776689-4fb6-47a6-acbc-cd0f63a88113	0	初始化数据	2026-01-03 21:32:18.91148	2026-01-03 21:32:18.91148
+创建岗位	3	1	module_system:position:create	\N	\N	\N	\N	\N	f	t	f	创建岗位	null	f	11	42	6087b1ed-b52a-4a71-bbfe-74cd6d16752d	0	初始化数据	2026-01-03 21:32:18.911483	2026-01-03 21:32:18.911483
+修改岗位	3	2	module_system:position:update	\N	\N	\N	\N	\N	f	t	f	修改岗位	null	f	11	43	c81de02c-8781-47b3-804d-e8b572f2b1d1	0	初始化数据	2026-01-03 21:32:18.911485	2026-01-03 21:32:18.911486
+删除岗位	3	3	module_system:position:delete	\N	\N	\N	\N	\N	f	t	f	修改岗位	null	f	11	44	9ada8ac9-50c3-4251-88a6-1cea182b6e23	0	初始化数据	2026-01-03 21:32:18.911488	2026-01-03 21:32:18.911489
+批量修改岗位状态	3	4	module_system:position:patch	\N	\N	\N	\N	\N	f	t	f	批量修改岗位状态	null	f	11	45	bfcd71e3-b90e-4dfd-bb99-1e58ec411745	0	初始化数据	2026-01-03 21:32:18.911491	2026-01-03 21:32:18.911491
+岗位导出	3	5	module_system:position:export	\N	\N	\N	\N	\N	f	t	f	岗位导出	null	f	11	46	e4f86a4d-b64c-484c-833f-5fcf7f55273c	0	初始化数据	2026-01-03 21:32:18.911494	2026-01-03 21:32:18.911494
+详情岗位	3	6	module_system:position:detail	\N	\N	\N	\N	\N	f	t	f	详情岗位	null	f	11	47	5cbfc463-d1b2-4268-af93-2bd80012a80c	0	初始化数据	2026-01-03 21:32:18.911497	2026-01-03 21:32:18.911497
+查询岗位	3	7	module_system:position:query	\N	\N	\N	\N	\N	f	t	f	查询岗位	null	f	11	48	20aaaf6d-f02e-422e-8800-48e1c0ae9dd7	0	初始化数据	2026-01-03 21:32:18.911499	2026-01-03 21:32:18.9115
+创建角色	3	1	module_system:role:create	\N	\N	\N	\N	\N	f	t	f	创建角色	null	f	12	49	f7f2a522-4d2f-4ae2-b081-fc455b5fd869	0	初始化数据	2026-01-03 21:32:18.911502	2026-01-03 21:32:18.911503
+修改角色	3	2	module_system:role:update	\N	\N	\N	\N	\N	f	t	f	修改角色	null	f	12	50	0c7738be-cf93-42cd-a77b-473262ba35b8	0	初始化数据	2026-01-03 21:32:18.911505	2026-01-03 21:32:18.911506
+删除角色	3	3	module_system:role:delete	\N	\N	\N	\N	\N	f	t	f	删除角色	null	f	12	51	d74eb083-c965-4002-9cab-d28c944941e8	0	初始化数据	2026-01-03 21:32:18.911508	2026-01-03 21:32:18.911509
+批量修改角色状态	3	4	module_system:role:patch	\N	\N	\N	\N	\N	f	t	f	批量修改角色状态	null	f	12	52	8f3181f4-3797-4c8d-9727-73b65e83dc13	0	初始化数据	2026-01-03 21:32:18.911511	2026-01-03 21:32:18.911512
+角色导出	3	5	module_system:role:export	\N	\N	\N	\N	\N	f	t	f	角色导出	null	f	12	53	0409184f-4e47-4e5b-ab46-06977ac912ee	0	初始化数据	2026-01-03 21:32:18.911514	2026-01-03 21:32:18.911515
+详情角色	3	6	module_system:role:detail	\N	\N	\N	\N	\N	f	t	f	详情角色	null	f	12	54	1a1a37ae-f6f6-471d-a296-382edebfedb8	0	初始化数据	2026-01-03 21:32:18.911517	2026-01-03 21:32:18.911518
+查询角色	3	7	module_system:role:query	\N	\N	\N	\N	\N	f	t	f	查询角色	null	f	12	55	81bd5583-a5e7-403e-9388-fd7b5be62d50	0	初始化数据	2026-01-03 21:32:18.91152	2026-01-03 21:32:18.91152
+创建用户	3	1	module_system:user:create	\N	\N	\N	\N	\N	f	t	f	创建用户	null	f	13	56	1b409e37-c8e1-4b32-9842-96d4d5870769	0	初始化数据	2026-01-03 21:32:18.911523	2026-01-03 21:32:18.911523
+修改用户	3	2	module_system:user:update	\N	\N	\N	\N	\N	f	t	f	修改用户	null	f	13	57	89d8146a-0a01-42f0-8249-538c65fcb20a	0	初始化数据	2026-01-03 21:32:18.911526	2026-01-03 21:32:18.911526
+删除用户	3	3	module_system:user:delete	\N	\N	\N	\N	\N	f	t	f	删除用户	null	f	13	58	58fee4f1-cf15-4b41-ac10-d07246b4ee59	0	初始化数据	2026-01-03 21:32:18.911529	2026-01-03 21:32:18.911529
+批量修改用户状态	3	4	module_system:user:patch	\N	\N	\N	\N	\N	f	t	f	批量修改用户状态	null	f	13	59	c7df3326-7d54-4a34-85f6-0ba84c2f00bf	0	初始化数据	2026-01-03 21:32:18.911532	2026-01-03 21:32:18.911532
+导出用户	3	5	module_system:user:export	\N	\N	\N	\N	\N	f	t	f	导出用户	null	f	13	60	e7a89f3c-7add-4580-a6f6-fd4c27893973	0	初始化数据	2026-01-03 21:32:18.911534	2026-01-03 21:32:18.911535
+导入用户	3	6	module_system:user:import	\N	\N	\N	\N	\N	f	t	f	导入用户	null	f	13	61	79e9601e-1ded-4883-8ef4-f0602d5c1767	0	初始化数据	2026-01-03 21:32:18.911537	2026-01-03 21:32:18.911538
+下载用户导入模板	3	7	module_system:user:download	\N	\N	\N	\N	\N	f	t	f	下载用户导入模板	null	f	13	62	9af6e9b9-71ce-4dfc-8df3-a97a6556d115	0	初始化数据	2026-01-03 21:32:18.91154	2026-01-03 21:32:18.91154
+详情用户	3	8	module_system:user:detail	\N	\N	\N	\N	\N	f	t	f	详情用户	null	f	13	63	5ae4fded-90d9-4d28-b93b-1d78a71a3ad6	0	初始化数据	2026-01-03 21:32:18.911543	2026-01-03 21:32:18.911543
+查询用户	3	9	module_system:user:query	\N	\N	\N	\N	\N	f	t	f	查询用户	null	f	13	64	a26b1bd7-d863-4c6c-80f5-da4e6fa9d34b	0	初始化数据	2026-01-03 21:32:18.911546	2026-01-03 21:32:18.911546
+日志删除	3	1	module_system:log:delete	\N	\N	\N	\N	\N	f	t	f	日志删除	null	f	14	65	7ed74443-10e7-40e9-b7d2-99b814597417	0	初始化数据	2026-01-03 21:32:18.911548	2026-01-03 21:32:18.911549
+日志导出	3	2	module_system:log:export	\N	\N	\N	\N	\N	f	t	f	日志导出	null	f	14	66	cab97ed3-a0fe-4a37-8a86-9d394e7de088	0	初始化数据	2026-01-03 21:32:18.911551	2026-01-03 21:32:18.911551
+日志详情	3	3	module_system:log:detail	\N	\N	\N	\N	\N	f	t	f	日志详情	null	f	14	67	d4964258-ec78-4e05-98f1-0174bb914cc4	0	初始化数据	2026-01-03 21:32:18.911554	2026-01-03 21:32:18.911554
+查询日志	3	4	module_system:log:query	\N	\N	\N	\N	\N	f	t	f	查询日志	null	f	14	68	b4e13038-5e5e-4a1b-8b32-b0132b5271c5	0	初始化数据	2026-01-03 21:32:18.911557	2026-01-03 21:32:18.911557
+公告创建	3	1	module_system:notice:create	\N	\N	\N	\N	\N	f	t	f	公告创建	null	f	15	69	dd2c2504-743e-48e3-a758-f9aa2bcdcd83	0	初始化数据	2026-01-03 21:32:18.911559	2026-01-03 21:32:18.91156
+公告修改	3	2	module_system:notice:update	\N	\N	\N	\N	\N	f	t	f	修改用户	null	f	15	70	3daceab3-ec00-4fc8-bd3a-dac224b727e0	0	初始化数据	2026-01-03 21:32:18.911562	2026-01-03 21:32:18.911564
+公告删除	3	3	module_system:notice:delete	\N	\N	\N	\N	\N	f	t	f	公告删除	null	f	15	71	4966506d-bc03-4df9-b0e5-9a1a78946357	0	初始化数据	2026-01-03 21:32:18.911567	2026-01-03 21:32:18.911567
+公告导出	3	4	module_system:notice:export	\N	\N	\N	\N	\N	f	t	f	公告导出	null	f	15	72	fc4a35a3-8795-4d58-859d-31be25af894f	0	初始化数据	2026-01-03 21:32:18.911571	2026-01-03 21:32:18.911571
+公告批量修改状态	3	5	module_system:notice:patch	\N	\N	\N	\N	\N	f	t	f	公告批量修改状态	null	f	15	73	f41bfd30-e52c-4ac8-a008-27f5d4fde5de	0	初始化数据	2026-01-03 21:32:18.911575	2026-01-03 21:32:18.911575
+公告详情	3	6	module_system:notice:detail	\N	\N	\N	\N	\N	f	t	f	公告详情	null	f	15	74	8a129bcf-53fb-4c73-872b-8e281d09bb1d	0	初始化数据	2026-01-03 21:32:18.911579	2026-01-03 21:32:18.911579
+查询公告	3	5	module_system:notice:query	\N	\N	\N	\N	\N	f	t	f	查询公告	null	f	15	75	3f24b0f2-5d84-4e98-9097-d90f6276678c	0	初始化数据	2026-01-03 21:32:18.911582	2026-01-03 21:32:18.911583
+创建参数	3	1	module_system:param:create	\N	\N	\N	\N	\N	f	t	f	创建参数	null	f	16	76	8513bd00-0f00-4cd6-a76a-1e83e194a4e4	0	初始化数据	2026-01-03 21:32:18.911586	2026-01-03 21:32:18.911587
+修改参数	3	2	module_system:param:update	\N	\N	\N	\N	\N	f	t	f	修改参数	null	f	16	77	36a7d50e-34a1-462b-b388-b9d6d8539ad2	0	初始化数据	2026-01-03 21:32:18.91159	2026-01-03 21:32:18.911591
+删除参数	3	3	module_system:param:delete	\N	\N	\N	\N	\N	f	t	f	删除参数	null	f	16	78	505028b6-0362-4792-9b86-4edd40f81ffd	0	初始化数据	2026-01-03 21:32:18.911594	2026-01-03 21:32:18.911594
+导出参数	3	4	module_system:param:export	\N	\N	\N	\N	\N	f	t	f	导出参数	null	f	16	79	2c5d2b14-366f-4632-930b-0396b6ac4bd3	0	初始化数据	2026-01-03 21:32:18.911598	2026-01-03 21:32:18.911598
+参数上传	3	5	module_system:param:upload	\N	\N	\N	\N	\N	f	t	f	参数上传	null	f	16	80	60aee432-dd9b-448c-b527-18b49c7d137a	0	初始化数据	2026-01-03 21:32:18.911602	2026-01-03 21:32:18.911602
+参数详情	3	6	module_system:param:detail	\N	\N	\N	\N	\N	f	t	f	参数详情	null	f	16	81	c87eb5ed-62a1-4cd4-8851-0e00cb69b2cc	0	初始化数据	2026-01-03 21:32:18.911605	2026-01-03 21:32:18.911605
+查询参数	3	7	module_system:param:query	\N	\N	\N	\N	\N	f	t	f	查询参数	null	f	16	82	d44dccb9-3b72-4e56-bff4-842ccab4cf6a	0	初始化数据	2026-01-03 21:32:18.911608	2026-01-03 21:32:18.911608
+创建字典类型	3	1	module_system:dict_type:create	\N	\N	\N	\N	\N	f	t	f	创建字典类型	null	f	17	83	9550ae0d-72c5-4594-b478-a5fae5b27fc9	0	初始化数据	2026-01-03 21:32:18.911611	2026-01-03 21:32:18.911611
+修改字典类型	3	2	module_system:dict_type:update	\N	\N	\N	\N	\N	f	t	f	修改字典类型	null	f	17	84	6c9762a7-0846-40df-82ba-4472ca2b5881	0	初始化数据	2026-01-03 21:32:18.911614	2026-01-03 21:32:18.911614
+删除字典类型	3	3	module_system:dict_type:delete	\N	\N	\N	\N	\N	f	t	f	删除字典类型	null	f	17	85	7f8d933f-dee6-4dde-b72f-707a7f1b7e49	0	初始化数据	2026-01-03 21:32:18.911617	2026-01-03 21:32:18.911617
+导出字典类型	3	4	module_system:dict_type:export	\N	\N	\N	\N	\N	f	t	f	导出字典类型	null	f	17	86	5d14d903-230c-413a-8bba-b70e6b91d33c	0	初始化数据	2026-01-03 21:32:18.911619	2026-01-03 21:32:18.91162
+批量修改字典状态	3	5	module_system:dict_type:patch	\N	\N	\N	\N	\N	f	t	f	导出字典类型	null	f	17	87	d1712e01-35ac-443b-aece-06c62c0ab088	0	初始化数据	2026-01-03 21:32:18.911622	2026-01-03 21:32:18.911623
+字典数据查询	3	6	module_system:dict_data:query	\N	\N	\N	\N	\N	f	t	f	字典数据查询	null	f	17	88	1565475c-f3a9-4bbb-b93b-5e220467cc81	0	初始化数据	2026-01-03 21:32:18.911625	2026-01-03 21:32:18.911625
+创建字典数据	3	7	module_system:dict_data:create	\N	\N	\N	\N	\N	f	t	f	创建字典数据	null	f	17	89	578edd73-25f7-43bb-9f8b-1502e6a028d3	0	初始化数据	2026-01-03 21:32:18.911628	2026-01-03 21:32:18.911628
+修改字典数据	3	8	module_system:dict_data:update	\N	\N	\N	\N	\N	f	t	f	修改字典数据	null	f	17	90	71a3bab7-d934-484c-aa9a-e7a7266cddc5	0	初始化数据	2026-01-03 21:32:18.911631	2026-01-03 21:32:18.911631
+删除字典数据	3	9	module_system:dict_data:delete	\N	\N	\N	\N	\N	f	t	f	删除字典数据	null	f	17	91	e336aadd-a4fa-41f7-8649-7269ec57f691	0	初始化数据	2026-01-03 21:32:18.911634	2026-01-03 21:32:18.911634
+导出字典数据	3	10	module_system:dict_data:export	\N	\N	\N	\N	\N	f	t	f	导出字典数据	null	f	17	92	3595a298-ff90-400a-bbb7-b22b5991b53d	0	初始化数据	2026-01-03 21:32:18.911636	2026-01-03 21:32:18.911637
+批量修改字典数据状态	3	11	module_system:dict_data:patch	\N	\N	\N	\N	\N	f	t	f	批量修改字典数据状态	null	f	17	93	f19ece16-4c9e-4e36-9d40-e95119439dba	0	初始化数据	2026-01-03 21:32:18.911639	2026-01-03 21:32:18.911639
+详情字典类型	3	12	module_system:dict_type:detail	\N	\N	\N	\N	\N	f	t	f	详情字典类型	null	f	17	94	8c8a3c93-4b81-4f2a-9f19-69d55289bed0	0	初始化数据	2026-01-03 21:32:18.911642	2026-01-03 21:32:18.911642
+查询字典类型	3	13	module_system:dict_type:query	\N	\N	\N	\N	\N	f	t	f	查询字典类型	null	f	17	95	3c086e98-80be-43a9-bf92-9e549ce52001	0	初始化数据	2026-01-03 21:32:18.911645	2026-01-03 21:32:18.911645
+详情字典数据	3	14	module_system:dict_data:detail	\N	\N	\N	\N	\N	f	t	f	详情字典数据	null	f	17	96	7747b9b0-4876-4379-838c-71746abf40d3	0	初始化数据	2026-01-03 21:32:18.911647	2026-01-03 21:32:18.911648
+创建应用	3	1	module_application:myapp:create	\N	\N	\N	\N	\N	f	t	f	创建应用	null	f	18	97	6597310c-0997-4adf-ab77-a3abf3c06fdb	0	初始化数据	2026-01-03 21:32:18.91165	2026-01-03 21:32:18.91165
+修改应用	3	2	module_application:myapp:update	\N	\N	\N	\N	\N	f	t	f	修改应用	null	f	18	98	bf921c89-86aa-429c-b00d-92b9b4267451	0	初始化数据	2026-01-03 21:32:18.911653	2026-01-03 21:32:18.911653
+删除应用	3	3	module_application:myapp:delete	\N	\N	\N	\N	\N	f	t	f	删除应用	null	f	18	99	dcd2b033-e1ff-4361-abb9-499358d7533b	0	初始化数据	2026-01-03 21:32:18.911656	2026-01-03 21:32:18.911656
+批量修改应用状态	3	4	module_application:myapp:patch	\N	\N	\N	\N	\N	f	t	f	批量修改应用状态	null	f	18	100	abde1610-99f2-4366-9cbf-dbc0991a9aa3	0	初始化数据	2026-01-03 21:32:18.911658	2026-01-03 21:32:18.911659
+详情应用	3	5	module_application:myapp:detail	\N	\N	\N	\N	\N	f	t	f	详情应用	null	f	18	101	e4ec94d0-7514-4423-80aa-c3e6f6a9e840	0	初始化数据	2026-01-03 21:32:18.911661	2026-01-03 21:32:18.911662
+查询应用	3	6	module_application:myapp:query	\N	\N	\N	\N	\N	f	t	f	查询应用	null	f	18	102	3f4ad15e-a846-43ba-81b7-c07998fae40e	0	初始化数据	2026-01-03 21:32:18.911664	2026-01-03 21:32:18.911665
+创建任务	3	1	module_application:job:create	\N	\N	\N	\N	\N	f	t	f	创建任务	null	f	19	103	f3bd89ed-6be3-4b1b-9c8d-5f1473074c6a	0	初始化数据	2026-01-03 21:32:18.911667	2026-01-03 21:32:18.911667
+修改和操作任务	3	2	module_application:job:update	\N	\N	\N	\N	\N	f	t	f	修改和操作任务	null	f	19	104	af780bd5-d542-422f-8714-17a67628b705	0	初始化数据	2026-01-03 21:32:18.91167	2026-01-03 21:32:18.91167
+删除和清除任务	3	3	module_application:job:delete	\N	\N	\N	\N	\N	f	t	f	删除和清除任务	null	f	19	105	1b6d0689-87fe-4092-9407-7da413b99786	0	初始化数据	2026-01-03 21:32:18.911672	2026-01-03 21:32:18.911673
+导出定时任务	3	4	module_application:job:export	\N	\N	\N	\N	\N	f	t	f	导出定时任务	null	f	19	106	5e1b35b0-c349-41a6-8873-e80787e5a00b	0	初始化数据	2026-01-03 21:32:18.911675	2026-01-03 21:32:18.911676
+详情定时任务	3	5	module_application:job:detail	\N	\N	\N	\N	\N	f	t	f	详情任务	null	f	19	107	7e9c0d83-f381-42c9-a0a0-448680e8c36c	0	初始化数据	2026-01-03 21:32:18.91168	2026-01-03 21:32:18.911681
+查询定时任务	3	6	module_application:job:query	\N	\N	\N	\N	\N	f	t	f	查询定时任务	null	f	19	108	9020114f-35f2-4383-9659-b72f2ff9d72a	0	初始化数据	2026-01-03 21:32:18.911684	2026-01-03 21:32:18.911684
+智能对话	3	1	module_application:ai:chat	\N	\N	\N	\N	\N	f	t	f	智能对话	null	f	20	109	353ee35e-c3c1-4ee1-8a64-324bdc7f1d96	0	智能对话	2026-01-03 21:32:18.911686	2026-01-03 21:32:18.911687
+在线用户强制下线	3	1	module_monitor:online:delete	\N	\N	\N	\N	\N	f	t	f	在线用户强制下线	null	f	22	110	0edf0de3-ae8d-4a47-9e43-74ac1ff9a8a9	0	初始化数据	2026-01-03 21:32:18.911689	2026-01-03 21:32:18.91169
+清除缓存	3	1	module_monitor:cache:delete	\N	\N	\N	\N	\N	f	t	f	清除缓存	null	f	24	111	8ba7c514-fcfe-4bf7-a3fb-3683e2a2927c	0	初始化数据	2026-01-03 21:32:18.911692	2026-01-03 21:32:18.911693
+文件上传	3	1	module_monitor:resource:upload	\N	\N	\N	\N	\N	f	t	f	文件上传	null	f	25	112	2e1be8fb-fa3e-422b-baeb-491ca1b39a25	0	初始化数据	2026-01-03 21:32:18.911695	2026-01-03 21:32:18.911695
+文件下载	3	2	module_monitor:resource:download	\N	\N	\N	\N	\N	f	t	f	文件下载	null	f	25	113	5876d559-7e73-4f02-bb76-447a5d20a452	0	初始化数据	2026-01-03 21:32:18.911698	2026-01-03 21:32:18.911698
+文件删除	3	3	module_monitor:resource:delete	\N	\N	\N	\N	\N	f	t	f	文件删除	null	f	25	114	a37dfbdc-dd4a-43f0-82f5-ff2ad50481ec	0	初始化数据	2026-01-03 21:32:18.911701	2026-01-03 21:32:18.911701
+文件移动	3	4	module_monitor:resource:move	\N	\N	\N	\N	\N	f	t	f	文件移动	null	f	25	115	99cf44db-1661-4fd6-8d7d-1d9fd0e963d2	0	初始化数据	2026-01-03 21:32:18.911704	2026-01-03 21:32:18.911704
+文件复制	3	5	module_monitor:resource:copy	\N	\N	\N	\N	\N	f	t	f	文件复制	null	f	25	116	43eeccb8-f09e-4a35-9df7-04009fd7ffd4	0	初始化数据	2026-01-03 21:32:18.911706	2026-01-03 21:32:18.911707
+文件重命名	3	6	module_monitor:resource:rename	\N	\N	\N	\N	\N	f	t	f	文件重命名	null	f	25	117	c8fd4446-9147-4dd0-9dbb-b7ad7531edb2	0	初始化数据	2026-01-03 21:32:18.911709	2026-01-03 21:32:18.911709
+创建目录	3	7	module_monitor:resource:create_dir	\N	\N	\N	\N	\N	f	t	f	创建目录	null	f	25	118	d2c29d13-d63c-41e0-9798-db94fdd06e38	0	初始化数据	2026-01-03 21:32:18.911712	2026-01-03 21:32:18.911712
+导出文件列表	3	9	module_monitor:resource:export	\N	\N	\N	\N	\N	f	t	f	导出文件列表	null	f	25	119	5bb86efe-3d16-41d9-a3e6-e1e22cc8683c	0	初始化数据	2026-01-03 21:32:18.911715	2026-01-03 21:32:18.911715
+查询代码生成业务表列表	3	1	module_generator:gencode:query	\N	\N	\N	\N	\N	f	t	f	查询代码生成业务表列表	null	f	26	120	2a292a26-2ca3-42ab-ab6c-f8225d916df8	0	查询代码生成业务表列表	2026-01-03 21:32:18.911717	2026-01-03 21:32:18.911718
+创建表结构	3	2	module_generator:gencode:create	\N	\N	\N	\N	\N	f	t	f	创建表结构	null	f	26	121	ec7640e8-1790-4563-a54f-d6b487bc3501	0	创建表结构	2026-01-03 21:32:18.91172	2026-01-03 21:32:18.911721
+编辑业务表信息	3	3	module_generator:gencode:update	\N	\N	\N	\N	\N	f	t	f	编辑业务表信息	null	f	26	122	c38e5ba5-ffc4-47e3-910e-c24978781830	0	编辑业务表信息	2026-01-03 21:32:18.911723	2026-01-03 21:32:18.911724
+删除业务表信息	3	4	module_generator:gencode:delete	\N	\N	\N	\N	\N	f	t	f	删除业务表信息	null	f	26	123	9f534ac6-8ccd-4ea6-a30b-e9aa41177146	0	删除业务表信息	2026-01-03 21:32:18.911726	2026-01-03 21:32:18.911726
+导入表结构	3	5	module_generator:gencode:import	\N	\N	\N	\N	\N	f	t	f	导入表结构	null	f	26	124	8fbc97e8-583a-4f51-a87b-819c1158568e	0	导入表结构	2026-01-03 21:32:18.911729	2026-01-03 21:32:18.911729
+批量生成代码	3	6	module_generator:gencode:operate	\N	\N	\N	\N	\N	f	t	f	批量生成代码	null	f	26	125	8c98d051-8277-4382-887e-8f11a27fa839	0	批量生成代码	2026-01-03 21:32:18.911732	2026-01-03 21:32:18.911732
+生成代码到指定路径	3	7	module_generator:gencode:code	\N	\N	\N	\N	\N	f	t	f	生成代码到指定路径	null	f	26	126	b516e17a-68c7-447b-b67e-e706bec688c6	0	生成代码到指定路径	2026-01-03 21:32:18.911735	2026-01-03 21:32:18.911735
+查询数据库表列表	3	8	module_generator:dblist:query	\N	\N	\N	\N	\N	f	t	f	查询数据库表列表	null	f	26	127	c489c527-1397-4763-afb5-39c6bce33c34	0	查询数据库表列表	2026-01-03 21:32:18.911737	2026-01-03 21:32:18.911738
+同步数据库	3	9	module_generator:db:sync	\N	\N	\N	\N	\N	f	t	f	同步数据库	null	f	26	128	e98d0079-e340-45bc-b09f-9476f71b2aa3	0	同步数据库	2026-01-03 21:32:18.91174	2026-01-03 21:32:18.911741
+创建示例	3	1	module_example:demo:create	\N	\N	\N	\N	\N	f	t	f	创建示例	null	f	29	129	065ff5d5-e279-4df3-91d1-4c81eb589794	0	初始化数据	2026-01-03 21:32:18.911743	2026-01-03 21:32:18.911743
+更新示例	3	2	module_example:demo:update	\N	\N	\N	\N	\N	f	t	f	更新示例	null	f	29	130	a7778542-d3cd-4964-839a-6aa631b8955c	0	初始化数据	2026-01-03 21:32:18.911746	2026-01-03 21:32:18.911746
+删除示例	3	3	module_example:demo:delete	\N	\N	\N	\N	\N	f	t	f	删除示例	null	f	29	131	e72c989e-69b1-4bad-8c9f-192312c671ba	0	初始化数据	2026-01-03 21:32:18.911749	2026-01-03 21:32:18.911749
+批量修改示例状态	3	4	module_example:demo:patch	\N	\N	\N	\N	\N	f	t	f	批量修改示例状态	null	f	29	132	7ef6f0b7-cc65-4283-b1aa-02c29a4a68fc	0	初始化数据	2026-01-03 21:32:18.911751	2026-01-03 21:32:18.911752
+导出示例	3	5	module_example:demo:export	\N	\N	\N	\N	\N	f	t	f	导出示例	null	f	29	133	e3e0a107-d9c7-4e2a-85d8-442201477bda	0	初始化数据	2026-01-03 21:32:18.911754	2026-01-03 21:32:18.911754
+导入示例	3	6	module_example:demo:import	\N	\N	\N	\N	\N	f	t	f	导入示例	null	f	29	134	82a3f388-66ac-4804-87d5-6c1553a9fb73	0	初始化数据	2026-01-03 21:32:18.911757	2026-01-03 21:32:18.911757
+下载导入示例模版	3	7	module_example:demo:download	\N	\N	\N	\N	\N	f	t	f	下载导入示例模版	null	f	29	135	37044da4-53aa-45ca-b0b4-c482a6267738	0	初始化数据	2026-01-03 21:32:18.91176	2026-01-03 21:32:18.91176
+详情示例	3	8	module_example:demo:detail	\N	\N	\N	\N	\N	f	t	f	详情示例	null	f	29	136	bcb8c7c2-8336-445b-bd5a-e520df635780	0	初始化数据	2026-01-03 21:32:18.911763	2026-01-03 21:32:18.911763
+查询示例	3	9	module_example:demo:query	\N	\N	\N	\N	\N	f	t	f	查询示例	null	f	29	137	b9c1eeb0-426a-42ba-9cec-a6dca30bdb9d	0	初始化数据	2026-01-03 21:32:18.911766	2026-01-03 21:32:18.911766
 \.
 
 
@@ -3303,22 +3375,22 @@ COPY public.sys_notice (notice_title, notice_type, notice_content, id, uuid, sta
 --
 
 COPY public.sys_param (config_name, config_key, config_value, config_type, id, uuid, status, description, created_time, updated_time) FROM stdin;
-网站名称	sys_web_title	FastApiAdmin	t	1	9d7fc0c5-4c0e-4b9b-955a-815ae790ff88	0	初始化数据	2025-12-31 18:45:46.300449	2025-12-31 18:45:46.30045
-网站描述	sys_web_description	FastApiAdmin 是完全开源的权限管理系统	t	2	a16ac823-902d-411c-ab20-640ca846b7f3	0	初始化数据	2025-12-31 18:45:46.300454	2025-12-31 18:45:46.300455
-网页图标	sys_web_favicon	https://service.fastapiadmin.com/api/v1/static/image/favicon.png	t	3	49a63953-b40c-462a-ac8c-ba24bacf121d	0	初始化数据	2025-12-31 18:45:46.300458	2025-12-31 18:45:46.300458
-网站Logo	sys_web_logo	https://service.fastapiadmin.com/api/v1/static/image/logo.png	t	4	8b8e2e9c-115a-4037-b9b6-0b31669a0d27	0	初始化数据	2025-12-31 18:45:46.300461	2025-12-31 18:45:46.300462
-登录背景	sys_login_background	https://service.fastapiadmin.com/api/v1/static/image/background.svg	t	5	44351db5-0cd7-4456-b9a3-03b3a26cc549	0	初始化数据	2025-12-31 18:45:46.300465	2025-12-31 18:45:46.300465
-版权信息	sys_web_copyright	Copyright © 2025-2026 service.fastapiadmin.com 版权所有	t	6	6cad2472-d090-475a-a2d7-884073f340dd	0	初始化数据	2025-12-31 18:45:46.300468	2025-12-31 18:45:46.300468
-备案信息	sys_keep_record	陕ICP备2025069493号-1	t	7	405f1d3d-2470-4a92-88fa-0f184e79d84f	0	初始化数据	2025-12-31 18:45:46.300471	2025-12-31 18:45:46.300472
-帮助文档	sys_help_doc	https://service.fastapiadmin.com	t	8	f6a2f3fb-2a7c-4238-9cb0-0d2597300581	0	初始化数据	2025-12-31 18:45:46.300474	2025-12-31 18:45:46.300475
-隐私政策	sys_web_privacy	https://github.com/1014TaoTao/FastapiAdmin/blob/master/LICENSE	t	9	0c7797d6-83af-4272-8694-b62cb4447a31	0	初始化数据	2025-12-31 18:45:46.300478	2025-12-31 18:45:46.300478
-用户协议	sys_web_clause	https://github.com/1014TaoTao/FastapiAdmin/blob/master/LICENSE	t	10	76442180-e43a-4cf2-b922-8b28a9e2d404	0	初始化数据	2025-12-31 18:45:46.300481	2025-12-31 18:45:46.300481
-源码代码	sys_git_code	https://github.com/1014TaoTao/FastapiAdmin.git	t	11	134919d5-37fb-4645-938e-4c1f402b8551	0	初始化数据	2025-12-31 18:45:46.300484	2025-12-31 18:45:46.300485
-项目版本	sys_web_version	2.0.0	t	12	5970e39a-22bd-47bc-947d-6bad6f269fda	0	初始化数据	2025-12-31 18:45:46.300487	2025-12-31 18:45:46.300488
-演示模式启用	demo_enable	false	t	13	2d7e521f-1e7b-4d38-82c8-2aff2d9462d2	0	初始化数据	2025-12-31 18:45:46.30049	2025-12-31 18:45:46.300491
-演示访问IP白名单	ip_white_list	["127.0.0.1"]	t	14	c0910f29-7712-4fc4-a9b0-8009ba2714cc	0	初始化数据	2025-12-31 18:45:46.300494	2025-12-31 18:45:46.300494
-接口白名单	white_api_list_path	["/api/v1/system/auth/login", "/api/v1/system/auth/token/refresh", "/api/v1/system/auth/captcha/get", "/api/v1/system/auth/logout", "/api/v1/system/config/info", "/api/v1/system/user/current/info", "/api/v1/system/notice/available"]	t	15	ba6eb4be-cb2a-43bc-9060-be6dccfc0694	0	初始化数据	2025-12-31 18:45:46.300497	2025-12-31 18:45:46.300497
-访问IP黑名单	ip_black_list	[]	t	16	382ffea9-f3cf-4fe6-914d-56beec35a57a	0	初始化数据	2025-12-31 18:45:46.3005	2025-12-31 18:45:46.3005
+网站名称	sys_web_title	FastApiAdmin	t	1	c27c73a7-59b3-4942-a6a5-c1014a48ba31	0	初始化数据	2026-01-03 21:32:18.923106	2026-01-03 21:32:18.923107
+网站描述	sys_web_description	FastApiAdmin 是完全开源的权限管理系统	t	2	83e5866f-6926-4b27-a323-c8b5457535e6	0	初始化数据	2026-01-03 21:32:18.923111	2026-01-03 21:32:18.923112
+网页图标	sys_web_favicon	https://service.fastapiadmin.com/api/v1/static/image/favicon.png	t	3	32ce1f34-f4c2-4b41-9845-f937cc385017	0	初始化数据	2026-01-03 21:32:18.923115	2026-01-03 21:32:18.923115
+网站Logo	sys_web_logo	https://service.fastapiadmin.com/api/v1/static/image/logo.png	t	4	d8b9b7e3-c501-4f3c-a71b-94e44d319069	0	初始化数据	2026-01-03 21:32:18.923118	2026-01-03 21:32:18.923118
+登录背景	sys_login_background	https://service.fastapiadmin.com/api/v1/static/image/background.svg	t	5	92713ea5-6fa8-4adc-ac7b-5e2a6ab80704	0	初始化数据	2026-01-03 21:32:18.923121	2026-01-03 21:32:18.923122
+版权信息	sys_web_copyright	Copyright © 2025-2026 service.fastapiadmin.com 版权所有	t	6	cbd70fb4-28c8-4e13-b9e4-44d461b5c1f1	0	初始化数据	2026-01-03 21:32:18.923125	2026-01-03 21:32:18.923125
+备案信息	sys_keep_record	陕ICP备2025069493号-1	t	7	059c93c3-82c2-4dfd-94f3-e539060d9fbc	0	初始化数据	2026-01-03 21:32:18.923128	2026-01-03 21:32:18.923128
+帮助文档	sys_help_doc	https://service.fastapiadmin.com	t	8	96ea2556-f9f0-403c-8da6-04c01970fe66	0	初始化数据	2026-01-03 21:32:18.923131	2026-01-03 21:32:18.923132
+隐私政策	sys_web_privacy	https://github.com/1014TaoTao/FastapiAdmin/blob/master/LICENSE	t	9	8fc4c4ee-8309-461c-8b62-c9bdeb4586d3	0	初始化数据	2026-01-03 21:32:18.923134	2026-01-03 21:32:18.923135
+用户协议	sys_web_clause	https://github.com/1014TaoTao/FastapiAdmin/blob/master/LICENSE	t	10	b47bde1c-a594-4362-8a0a-85b1574f4069	0	初始化数据	2026-01-03 21:32:18.923138	2026-01-03 21:32:18.923138
+源码代码	sys_git_code	https://github.com/1014TaoTao/FastapiAdmin.git	t	11	8cd060d1-01f6-48da-9150-b4050341e030	0	初始化数据	2026-01-03 21:32:18.923141	2026-01-03 21:32:18.923141
+项目版本	sys_web_version	2.0.0	t	12	f4797975-4fb8-4d5e-8ea9-70330ea2b374	0	初始化数据	2026-01-03 21:32:18.923144	2026-01-03 21:32:18.923144
+演示模式启用	demo_enable	false	t	13	f9d47fb7-72a7-4acc-a61e-13f0436b7664	0	初始化数据	2026-01-03 21:32:18.923147	2026-01-03 21:32:18.923148
+演示访问IP白名单	ip_white_list	["127.0.0.1"]	t	14	9c60b05f-b473-4706-8d5d-60f1f1fc605b	0	初始化数据	2026-01-03 21:32:18.92315	2026-01-03 21:32:18.923151
+接口白名单	white_api_list_path	["/api/v1/system/auth/login", "/api/v1/system/auth/token/refresh", "/api/v1/system/auth/captcha/get", "/api/v1/system/auth/logout", "/api/v1/system/config/info", "/api/v1/system/user/current/info", "/api/v1/system/notice/available"]	t	15	f0bd25e4-3c2c-478b-b625-4e63a9f7cc85	0	初始化数据	2026-01-03 21:32:18.923154	2026-01-03 21:32:18.923154
+访问IP黑名单	ip_black_list	[]	t	16	e69668dd-1cf5-406d-9089-788155dd6f39	0	初始化数据	2026-01-03 21:32:18.923157	2026-01-03 21:32:18.923157
 \.
 
 
@@ -3335,7 +3407,7 @@ COPY public.sys_position (name, "order", id, uuid, status, description, created_
 --
 
 COPY public.sys_role (name, code, "order", data_scope, id, uuid, status, description, created_time, updated_time) FROM stdin;
-管理员角色	ADMIN	1	4	1	833a61c5-92ff-493f-8dbe-83a7ce0b6c99	0	初始化角色	2025-12-31 18:45:46.306439	2025-12-31 18:45:46.306441
+管理员角色	ADMIN	1	4	1	21b7bab1-5126-4d1c-bcbc-63d3b7518f55	0	初始化角色	2026-01-03 21:32:18.92835	2026-01-03 21:32:18.928351
 \.
 
 
@@ -3360,7 +3432,7 @@ COPY public.sys_role_menus (role_id, menu_id) FROM stdin;
 --
 
 COPY public.sys_user (username, password, name, mobile, email, gender, avatar, is_superuser, last_login, gitee_login, github_login, wx_login, qq_login, dept_id, id, uuid, status, description, created_time, updated_time, created_id, updated_id) FROM stdin;
-admin	$2b$12$e2IJgS/cvHgJ0H3G7Xa08OXoXnk6N/NX3IZRtubBDElA0VLZhkNOa	超级管理员	\N	\N	0	https://service.fastapiadmin.com/api/v1/static/image/avatar.png	t	\N	\N	\N	\N	\N	1	1	1fbed989-7a61-43be-bfce-d470c7919b74	0	超级管理员	2025-12-31 18:45:46.319695	2025-12-31 18:45:46.319696	\N	\N
+admin	$2b$12$e2IJgS/cvHgJ0H3G7Xa08OXoXnk6N/NX3IZRtubBDElA0VLZhkNOa	超级管理员	\N	\N	0	https://service.fastapiadmin.com/api/v1/static/image/avatar.png	t	\N	\N	\N	\N	\N	1	1	74ae22e9-6ba7-463a-bb88-03cf32e15796	0	超级管理员	2026-01-03 21:32:18.938652	2026-01-03 21:32:18.938653	\N	\N
 \.
 
 

@@ -1088,8 +1088,11 @@ const canGenerate = computed(() => ids.value.length > 0);
 
 /** 一键复制代码 */
 const handleCopyCode = () => {
-  if (code.value) {
-    copy(code.value);
+  // 优先检查代码预览区域的code变量，然后检查创建表对话框的createContent变量
+  const content = code.value || createContent.value;
+
+  if (content) {
+    copy(content);
     ElMessage.success("代码复制成功");
   } else {
     ElMessage.warning("没有可复制的代码");
@@ -1240,9 +1243,7 @@ async function handleGenTable(targetGenType: string, row?: GenTableSchema): Prom
         loading.value = false;
         return;
       }
-
       await GencodeAPI.genCodeToPath(tbNames[0]);
-      ElMessage.success("代码已生成到指定路径");
     } else {
       // ZIP压缩包下载
       const tableNamesArray = Array.isArray(tbNames) ? tbNames : [tbNames];
@@ -1378,55 +1379,55 @@ async function handleDelete(row?: GenTableSchema): Promise<void> {
 /** 加载SQL示例 */
 function loadExampleMysql(): void {
   const exampleSql = `-- MySQL SQL案例
-  CREATE TABLE \`gen_demo01\` (
-    \`name\` varchar(64) DEFAULT NULL COMMENT '名称',
-    \`id\` int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    \`uuid\` varchar(64) NOT NULL COMMENT 'UUID全局唯一标识',
-    \`status\` varchar(10) NOT NULL COMMENT '是否启用(0:启用 1:禁用)',
-    \`description\` text COMMENT '备注/描述',
-    \`created_time\` datetime NOT NULL COMMENT '创建时间',
-    \`updated_time\` datetime NOT NULL COMMENT '更新时间',
-    \`created_id\` int DEFAULT NULL COMMENT '创建人ID',
-    \`updated_id\` int DEFAULT NULL COMMENT '更新人ID',
-    PRIMARY KEY (\`id\`),
-    UNIQUE KEY \`uuid\` (\`uuid\`),
-    KEY \`ix_gen_demo01_created_id\` (\`created_id\`),
-    KEY \`ix_gen_demo01_updated_id\` (\`updated_id\`),
-    CONSTRAINT \`gen_demo01_ibfk_1\` FOREIGN KEY (\`created_id\`) REFERENCES \`sys_user\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT \`gen_demo01_ibfk_2\` FOREIGN KEY (\`updated_id\`) REFERENCES \`sys_user\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE
-  ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='示例表'`;
+CREATE TABLE \`gen_demo01\` (
+  \`name\` varchar(64) DEFAULT NULL COMMENT '名称',
+  \`id\` int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  \`uuid\` varchar(64) NOT NULL COMMENT 'UUID全局唯一标识',
+  \`status\` varchar(10) NOT NULL COMMENT '是否启用(0:启用 1:禁用)',
+  \`description\` text COMMENT '备注/描述',
+  \`created_time\` datetime NOT NULL COMMENT '创建时间',
+  \`updated_time\` datetime NOT NULL COMMENT '更新时间',
+  \`created_id\` int DEFAULT NULL COMMENT '创建人ID',
+  \`updated_id\` int DEFAULT NULL COMMENT '更新人ID',
+  PRIMARY KEY (\`id\`),
+  UNIQUE KEY \`uuid\` (\`uuid\`),
+  KEY \`ix_gen_demo01_created_id\` (\`created_id\`),
+  KEY \`ix_gen_demo01_updated_id\` (\`updated_id\`),
+  CONSTRAINT \`gen_demo01_ibfk_1\` FOREIGN KEY (\`created_id\`) REFERENCES \`sys_user\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT \`gen_demo01_ibfk_2\` FOREIGN KEY (\`updated_id\`) REFERENCES \`sys_user\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='示例表'`;
   createContent.value = exampleSql;
 }
 
 function loadExamplePostgres(): void {
   const exampleSql = `-- Psstgres SQL案例
-  CREATE TABLE gen_demo01(
-    id SERIAL NOT NULL,
-    uuid varchar(64) NOT NULL,
-    name varchar(64),
-    status varchar(10) NOT NULL,
-    description text,
-    created_time timestamp without time zone NOT NULL,
-    updated_time timestamp without time zone NOT NULL,
-    created_id integer,
-    updated_id integer,
-    PRIMARY KEY(id),
-    CONSTRAINT gen_demo01_created_id_fkey FOREIGN key(created_id) REFERENCES sys_user(id),
-    CONSTRAINT gen_demo01_updated_id_fkey FOREIGN key(updated_id) REFERENCES sys_user(id)
-  );
-  CREATE UNIQUE INDEX en_demo01_uuid_key ON public.gen_demo01 USING btree (uuid);
-  CREATE INDEX ix_gen_demo01_created_id ON public.gen_demo01 USING btree (created_id);
-  CREATE INDEX ix_gen_demo01_updated_id ON public.gen_demo01 USING btree (updated_id);
-  COMMENT ON TABLE gen_demo01 IS '示例表';
-  COMMENT ON COLUMN gen_demo01.name IS '名称';
-  COMMENT ON COLUMN gen_demo01.id IS '主键ID';
-  COMMENT ON COLUMN gen_demo01.uuid IS 'UUID全局唯一标识';
-  COMMENT ON COLUMN gen_demo01.status IS '是否启用(0:启用 1:禁用)';
-  COMMENT ON COLUMN gen_demo01.description IS '备注/描述';
-  COMMENT ON COLUMN gen_demo01.created_time IS '创建时间';
-  COMMENT ON COLUMN gen_demo01.updated_time IS '更新时间';
-  COMMENT ON COLUMN gen_demo01.created_id IS '创建人ID';
-  COMMENT ON COLUMN gen_demo01.updated_id IS '更新人ID';`;
+CREATE TABLE gen_demo01(
+  id SERIAL NOT NULL,
+  uuid varchar(64) NOT NULL,
+  name varchar(64),
+  status varchar(10) NOT NULL,
+  description text,
+  created_time timestamp without time zone NOT NULL,
+  updated_time timestamp without time zone NOT NULL,
+  created_id integer,
+  updated_id integer,
+  PRIMARY KEY(id),
+  CONSTRAINT gen_demo01_created_id_fkey FOREIGN key(created_id) REFERENCES sys_user(id),
+  CONSTRAINT gen_demo01_updated_id_fkey FOREIGN key(updated_id) REFERENCES sys_user(id)
+);
+CREATE UNIQUE INDEX en_demo01_uuid_key ON public.gen_demo01 USING btree (uuid);
+CREATE INDEX ix_gen_demo01_created_id ON public.gen_demo01 USING btree (created_id);
+CREATE INDEX ix_gen_demo01_updated_id ON public.gen_demo01 USING btree (updated_id);
+COMMENT ON TABLE gen_demo01 IS '示例表';
+COMMENT ON COLUMN gen_demo01.name IS '名称';
+COMMENT ON COLUMN gen_demo01.id IS '主键ID';
+COMMENT ON COLUMN gen_demo01.uuid IS 'UUID全局唯一标识';
+COMMENT ON COLUMN gen_demo01.status IS '是否启用(0:启用 1:禁用)';
+COMMENT ON COLUMN gen_demo01.description IS '备注/描述';
+COMMENT ON COLUMN gen_demo01.created_time IS '创建时间';
+COMMENT ON COLUMN gen_demo01.updated_time IS '更新时间';
+COMMENT ON COLUMN gen_demo01.created_id IS '创建人ID';
+COMMENT ON COLUMN gen_demo01.updated_id IS '更新人ID';`;
   createContent.value = exampleSql;
 }
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy.engine.result import Result
 from sqlalchemy.engine.reflection import Inspector
-from sqlalchemy import Inspector, and_, select, text, inspect
-from typing import Sequence
-from sqlglot.expressions import Expression
+from sqlalchemy import Inspector, select, text, inspect
+from typing import Any, Sequence
 
 from app.core.logger import log
 from app.config.setting import settings
@@ -201,37 +201,9 @@ class GenTableCRUD(CRUDBase[GenTableModel, GenTableSchema, GenTableSchema]):
         返回:
         - bool: 如果表存在返回True，否则返回False。
         """
-        try:
-            # 使用SQLAlchemy的inspect功能检查表是否存在，这是数据库无关的方法
-            bind = self.auth.db.get_bind()
-            inspector: Inspector = inspect(bind)
-            return inspector.has_table(table_name)
-        except Exception as e:
-            log.error(f"检查表格存在性时发生错误: {e}")
-            # 出错时返回False，避免误报表已存在
-            return False
-            
-    async def create_table_by_sql(self, sql_statements: list[Expression | None]) -> bool:
-        """
-        根据SQL语句创建表结构。
-
-        参数:
-        - sql (str): 创建表的SQL语句。
-
-        返回:
-        - bool: 是否创建成功。
-        """
-        try:
-            # 执行SQL但不手动提交事务，由框架管理事务生命周期
-            for sql_statement in sql_statements:
-                if not sql_statement:
-                    continue
-                sql = sql_statement.sql(dialect=settings.DATABASE_TYPE)
-                await self.auth.db.execute(text(sql))
-            return True
-        except Exception as e:
-            log.error(f"创建表时发生错误: {e}")
-            return False
+        from app.core.database import engine
+        inspector: Inspector = inspect(engine)
+        return inspector.has_table(table_name)
 
     async def execute_sql(self, sql: str) -> bool:
         """
