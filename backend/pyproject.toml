@@ -40,7 +40,6 @@ dependencies = [
     "python-multipart==0.0.9",                  # request.form() 对表单进行「解析」时安装
     "redis==7.1.0",                             # redis 同/异步操作数据库(用户celery配套使用)redis 异步操作数据库 redis已经完全具备了aioredis的功能，无需重复安全,且aioredis已经不再维护也不兼容3.10+的版本
     "rich==13.9.4",                             # 终端打印美化
-    "ruff==0.14.13",                            # 代码格式化
     "sqlalchemy==2.0.45",                       # 数据库ORM
     "sqlglot[rs]==27.8.0",                      # sql 解析
     "typer==0.9.0",                             # 命令行工具
@@ -51,3 +50,8 @@ dependencies = [
 
 [tool.uv]
 cache-keys = [{ file = "pyproject.toml" }, { file = "requirements.txt" }]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.13",    # 代码格式化
+]

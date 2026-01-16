@@ -232,6 +232,11 @@ dependencies = [
     { name = "websockets" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "aiofiles", specifier = "==24.1.0" },
@@ -277,6 +282,9 @@ requires-dist = [
     { name = "uvicorn", specifier = "==0.30.6" },
     { name = "websockets", specifier = "==14.2" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = ">=0.14.13" }]
 
 [[package]]
 name = "bcrypt"
